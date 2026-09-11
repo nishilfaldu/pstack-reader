@@ -130,6 +130,7 @@ nav:
   - 2026-01-23 - Coding is Dead, Long Live Engineering: articles/2026-01-23-coding-is-dead-long-live-engineering.md
 - Posts:
   - Overview: posts/index.md
+  - 2026-09-11 - the main agent runs in the cloud, but it can spawn local workers on …: posts/2026-09-11-2098482521222836383.md
   - 2026-09-11 - since it's meant to be explanatory, i called it explicitly mainly to…: posts/2026-09-11-2098306157450580225.md
   - 2026-09-10 - the coordinator should see that you dragged it in, and it should be …: posts/2026-09-10-2098224680587174143.md
   - 2026-09-10 - some of my projects merge their own PRs, i review after it lands: posts/2026-09-10-2098224482372800668.md
