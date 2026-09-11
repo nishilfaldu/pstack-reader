@@ -81,3 +81,27 @@
   color: inherit;
   background: transparent;
 }
+
+
+/* Paragraph currently being read (Edge neural engine) */
+.ra-reading {
+  background: rgba(124, 77, 255, 0.12);
+  background: color-mix(in srgb, var(--md-accent-fg-color) 14%, transparent);
+  border-radius: 0.3rem;
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--md-accent-fg-color) 14%, transparent);
+  transition: background 200ms;
+}
+
+.ra-fab.ra-loading {
+  animation: ra-pulse 1s ease-in-out infinite;
+}
+
+.ra-fab.ra-error {
+  background: #d32f2f;
+  opacity: 1;
+}
+
+@keyframes ra-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}

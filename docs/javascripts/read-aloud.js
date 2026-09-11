@@ -1,22 +1,52 @@
-/* Read-aloud player: uses the browser's built-in speech synthesis.
-   Free, no backend. Adds a floating player on every docs page that reads
-   the article content aloud, with play/pause/stop and a voice picker
-   (choice persisted in localStorage). */
+/* Read-aloud player: free natural voices via /api/tts (Microsoft Edge neural
+   TTS, proxied by a serverless function in this repo - no API key, no paid
+   service). Adds a floating player on every docs page that reads the article
+   content aloud: play/pause/stop, voice picker, speed, and paragraph
+   highlighting. Choices persist in localStorage. */
 (function () {
   'use strict';
 
-  if (!('speechSynthesis' in window)) return;
-
   var VOICE_KEY = 'pstack.readAloud.voice';
   var RATE_KEY = 'pstack.readAloud.rate';
+  var API = '/api/tts';
+  var CHUNK_MAX = 1200; // chars per TTS request; keeps latency + rate limits sane
 
-  var blocks = [];
+  var VOICES = [
+    ['en-US-AvaMultilingualNeural', 'Ava (US)'],
+    ['en-US-AndrewMultilingualNeural', 'Andrew (US)'],
+    ['en-US-EmmaMultilingualNeural', 'Emma (US)'],
+    ['en-US-BrianMultilingualNeural', 'Brian (US)'],
+    ['en-US-AriaNeural', 'Aria (US)'],
+    ['en-US-GuyNeural', 'Guy (US)'],
+    ['en-US-JennyNeural', 'Jenny (US)'],
+    ['en-US-ChristopherNeural', 'Christopher (US)'],
+    ['en-GB-SoniaNeural', 'Sonia (UK)'],
+    ['en-GB-RyanNeural', 'Ryan (UK)'],
+    ['en-AU-NatashaNeural', 'Natasha (AU)'],
+    ['en-AU-WilliamNeural', 'William (AU)']
+  ];
+
+  var chunks = [];   // [{ text, els, url, promise }]
   var idx = 0;
-  var state = 'idle'; // idle | playing | paused
-  var gen = 0; // guards against stale utterance callbacks
-  var voices = [];
+  var state = 'idle'; // idle | loading | playing | paused
+  var gen = 0;        // guards against stale async callbacks
+  var audio = null;
+  var aborter = null;
 
   function $(id) { return document.getElementById(id); }
+
+  function currentVoice() {
+    var saved = null;
+    try { saved = localStorage.getItem(VOICE_KEY); } catch (e) {}
+    var sel = $('ra-voice');
+    return (sel && sel.value) || saved || VOICES[0][0];
+  }
+
+  function currentRate() {
+    var r = 1;
+    try { r = parseFloat(localStorage.getItem(RATE_KEY)) || 1; } catch (e) {}
+    return r;
+  }
 
   /* The article body in MkDocs Material lives in .md-content__inner. */
   function collectBlocks() {
@@ -26,7 +56,6 @@
     var all = Array.prototype.slice.call(root.querySelectorAll(sel));
     return all
       .filter(function (el) {
-        // drop elements nested inside another matched element (li in li, etc.)
         var p = el.parentElement;
         while (p && p !== root) {
           if (p.matches && p.matches(sel)) return false;
@@ -35,85 +64,149 @@
         return true;
       })
       .map(function (el) {
-        return (el.innerText || '').replace(/\s+/g, ' ').trim();
+        return { el: el, text: (el.innerText || '').replace(/\s+/g, ' ').trim() };
       })
-      .filter(function (t) { return t.length > 1; });
+      .filter(function (b) { return b.text.length > 1; });
   }
 
-  function loadVoices() {
-    var all = speechSynthesis.getVoices() || [];
-    var en = all.filter(function (v) {
-      return (v.lang || '').toLowerCase().replace('_', '-').indexOf('en') === 0;
-    });
-    voices = en.length ? en : all;
-    renderVoiceOptions();
-  }
-
-  function renderVoiceOptions() {
-    var sel = $('ra-voice');
-    if (!sel || !voices.length) return;
-    var saved = null;
-    try { saved = localStorage.getItem(VOICE_KEY); } catch (e) {}
-    sel.innerHTML = '';
-    voices.forEach(function (v, i) {
-      var opt = document.createElement('option');
-      opt.value = String(i);
-      opt.textContent = v.name + ' (' + v.lang + ')';
-      sel.appendChild(opt);
-      if (saved && (v.name + '|' + v.lang) === saved) sel.value = String(i);
+  /* Group consecutive blocks into request-sized chunks, keeping element refs
+     for highlighting. */
+  function buildChunks() {
+    var blocks = collectBlocks();
+    chunks = [];
+    var cur = null;
+    blocks.forEach(function (b) {
+      if (!cur || (cur.text.length + b.text.length + 1) > CHUNK_MAX) {
+        cur = { text: b.text, els: [b.el], url: null, promise: null };
+        chunks.push(cur);
+      } else {
+        cur.text += ' ' + b.text;
+        cur.els.push(b.el);
+      }
     });
   }
 
-  function selectedVoice() {
-    var sel = $('ra-voice');
-    var i = sel ? parseInt(sel.value, 10) : -1;
-    return voices[i] || null;
+  function highlight(chunk, on) {
+    chunk.els.forEach(function (el) {
+      el.classList.toggle('ra-reading', !!on);
+    });
   }
 
-  function selectedRate() {
-    var r = 1;
-    try { r = parseFloat(localStorage.getItem(RATE_KEY)) || 1; } catch (e) {}
-    return r;
+  function clearAllHighlights() {
+    chunks.forEach(function (c) { highlight(c, false); });
   }
 
-  function speakCurrent() {
-    if (idx >= blocks.length) { stopAll(); return; }
+  function fetchChunk(i) {
+    var c = chunks[i];
+    if (!c) return Promise.resolve(null);
+    if (c.url) return Promise.resolve(c.url);
+    if (c.promise) return c.promise;
     var myGen = gen;
-    var u = new SpeechSynthesisUtterance(blocks[idx]);
-    var v = selectedVoice();
-    if (v) u.voice = v;
-    u.rate = selectedRate();
-    u.onend = function () {
+    c.promise = fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: c.text, voice: currentVoice(), rate: currentRate() }),
+      signal: aborter ? aborter.signal : undefined
+    }).then(function (res) {
+      if (!res.ok) {
+        return res.json().catch(function () { return {}; }).then(function (body) {
+          throw new Error(body.error || ('HTTP ' + res.status));
+        });
+      }
+      return res.blob();
+    }).then(function (blob) {
+      if (myGen !== gen) return null;
+      if (!blob || !blob.size) throw new Error('empty audio');
+      c.url = URL.createObjectURL(blob);
+      return c.url;
+    }).catch(function (err) {
+      c.promise = null;
+      if (err && err.name === 'AbortError') return null;
+      throw err;
+    });
+    return c.promise;
+  }
+
+  function prefetchNext(i) {
+    var n = chunks[i + 1];
+    if (n && !n.url && !n.promise) {
+      fetchChunk(i + 1).catch(function () { /* retried on demand */ });
+    }
+  }
+
+  function dropCacheFrom(i) {
+    for (var k = i; k < chunks.length; k++) {
+      var c = chunks[k];
+      if (c.url) { URL.revokeObjectURL(c.url); c.url = null; }
+      c.promise = null;
+    }
+  }
+
+  function playChunk(i) {
+    var myGen = gen;
+    if (i >= chunks.length) { stopAll(); return; }
+    idx = i;
+    state = 'loading';
+    syncUI();
+    fetchChunk(i).then(function (url) {
+      if (myGen !== gen || url === null) return;
+      if (state !== 'loading' && state !== 'playing') return;
+      state = 'playing';
+      syncUI();
+      clearAllHighlights();
+      highlight(chunks[i], true);
+      chunks[i].els[0].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      audio.src = url;
+      var p = audio.play();
+      if (p && p.catch) p.catch(function (err) { onError(err); });
+      prefetchNext(i);
+    }).catch(function (err) {
       if (myGen !== gen) return;
-      if (state === 'playing') { idx++; speakCurrent(); }
-    };
-    u.onerror = function (e) {
-      if (myGen !== gen) return;
-      if (e && (e.error === 'interrupted' || e.error === 'canceled')) return;
-      if (state === 'playing') { idx++; speakCurrent(); }
-    };
-    speechSynthesis.speak(u);
+      onError(err);
+    });
+  }
+
+  function onError(err) {
+    // One silent retry of the current chunk, then give up with a visible state.
+    var c = chunks[idx];
+    if (c && !c._retried) {
+      c._retried = true;
+      setTimeout(function () {
+        if (state === 'loading' || state === 'playing') playChunk(idx);
+      }, 1200);
+      return;
+    }
+    state = 'idle';
+    var fab = $('ra-fab');
+    if (fab) {
+      fab.title = 'Read aloud failed: ' + ((err && err.message) || err) + ' - click to retry';
+      fab.classList.add('ra-error');
+      setTimeout(function () { fab.classList.remove('ra-error'); fab.title = 'Read aloud'; }, 4000);
+    }
+    clearAllHighlights();
+    syncUI();
   }
 
   function play() {
-    if (!blocks.length) blocks = collectBlocks();
-    if (!blocks.length) return;
+    if (!chunks.length) buildChunks();
+    if (!chunks.length) return;
     if (state === 'paused') {
       state = 'playing';
-      speechSynthesis.resume();
-    } else if (state !== 'playing') {
-      gen++;
-      state = 'playing';
-      speechSynthesis.cancel();
-      speakCurrent();
+      var p = audio.play();
+      if (p && p.catch) p.catch(function (err) { onError(err); });
+      syncUI();
+      return;
     }
-    syncUI();
+    if (state === 'playing' || state === 'loading') return;
+    gen++;
+    aborter = new AbortController();
+    playChunk(idx);
   }
 
   function pause() {
     if (state !== 'playing') return;
     state = 'paused';
-    speechSynthesis.pause();
+    audio.pause();
     syncUI();
   }
 
@@ -121,7 +214,10 @@
     gen++;
     state = 'idle';
     idx = 0;
-    try { speechSynthesis.cancel(); } catch (e) {}
+    if (aborter) { try { aborter.abort(); } catch (e) {} aborter = null; }
+    if (audio) { audio.pause(); audio.removeAttribute('src'); }
+    dropCacheFrom(0);
+    clearAllHighlights();
     syncUI();
   }
 
@@ -146,9 +242,10 @@
       playBtn.title = state === 'playing' ? 'Pause' : 'Play';
     }
     if (fab) {
-      fab.classList.toggle('ra-active', state !== 'idle');
+      fab.classList.toggle('ra-active', state === 'playing' || state === 'paused');
+      fab.classList.toggle('ra-loading', state === 'loading');
     }
-    if (rateBtn) rateBtn.textContent = selectedRate() + 'x';
+    if (rateBtn) rateBtn.textContent = currentRate() + 'x';
   }
 
   function buildUI() {
@@ -156,15 +253,30 @@
     var wrap = document.createElement('div');
     wrap.id = 'ra-player';
     wrap.className = 'ra-player';
+    var opts = VOICES.map(function (v) {
+      return '<option value="' + v[0] + '">' + v[1] + '</option>';
+    }).join('');
     wrap.innerHTML =
       '<div class="ra-panel" id="ra-panel" hidden>' +
-        '<select id="ra-voice" class="ra-voice" aria-label="Voice" title="Voice"></select>' +
+        '<select id="ra-voice" class="ra-voice" aria-label="Voice" title="Voice">' + opts + '</select>' +
         '<button id="ra-playpause" class="ra-btn" type="button" aria-label="Play reading">' + icon('play') + '</button>' +
         '<button id="ra-stop" class="ra-btn" type="button" aria-label="Stop reading" title="Stop">' + icon('stop') + '</button>' +
         '<button id="ra-rate" class="ra-btn ra-rate" type="button" aria-label="Playback speed" title="Speed">1x</button>' +
       '</div>' +
       '<button id="ra-fab" class="ra-fab" type="button" aria-label="Read this page aloud" title="Read aloud">' + icon('speaker') + '</button>';
     document.body.appendChild(wrap);
+
+    audio = new Audio();
+    audio.addEventListener('ended', function () {
+      if (state === 'playing') playChunk(idx + 1);
+    });
+    audio.addEventListener('error', function () {
+      if (state === 'playing' || state === 'loading') onError(new Error('audio playback failed'));
+    });
+
+    var savedVoice = null;
+    try { savedVoice = localStorage.getItem(VOICE_KEY); } catch (e) {}
+    if (savedVoice) $('ra-voice').value = savedVoice;
 
     $('ra-fab').addEventListener('click', function () {
       var panel = $('ra-panel');
@@ -179,47 +291,40 @@
       stopAll();
     });
     $('ra-rate').addEventListener('click', function () {
-      var rates = [1, 1.25, 1.5, 2];
-      var cur = selectedRate();
+      var rates = [0.75, 1, 1.25, 1.5, 2];
+      var cur = currentRate();
       var next = rates[(rates.indexOf(cur) + 1) % rates.length];
       try { localStorage.setItem(RATE_KEY, String(next)); } catch (e) {}
-      syncUI();
-      if (state === 'playing') {
-        // restart current block at the new speed
+      dropCacheFrom(idx); // audio changes with speed
+      if (state === 'playing' || state === 'paused' || state === 'loading') {
         var keep = idx;
         gen++;
-        speechSynthesis.cancel();
-        idx = keep;
-        speakCurrent();
+        aborter = new AbortController();
+        playChunk(keep);
       }
+      syncUI();
     });
     $('ra-voice').addEventListener('change', function () {
-      var v = selectedVoice();
-      if (v) {
-        try { localStorage.setItem(VOICE_KEY, v.name + '|' + v.lang); } catch (e) {}
-      }
-      if (state === 'playing') {
+      try { localStorage.setItem(VOICE_KEY, $('ra-voice').value); } catch (e) {}
+      dropCacheFrom(idx); // audio changes with voice
+      if (state === 'playing' || state === 'paused' || state === 'loading') {
         var keep = idx;
         gen++;
-        speechSynthesis.cancel();
-        idx = keep;
-        speakCurrent();
+        aborter = new AbortController();
+        playChunk(keep);
       }
     });
 
-    loadVoices();
-    if (typeof speechSynthesis.onvoiceschanged !== 'undefined') {
-      speechSynthesis.onvoiceschanged = loadVoices;
-    }
     syncUI();
   }
 
-  // MkDocs Material swaps the page content on instant navigation, so rebuild
-  // the player if it was replaced and stop reading the old page.
+  // MkDocs Material swaps page content on instant navigation: reset the
+  // player so it reads the new page, not the old one.
   function onPage() {
     if (state !== 'idle') stopAll();
-    blocks = [];
+    chunks = [];
     idx = 0;
+    audio = null;
     buildUI();
   }
 
