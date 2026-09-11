@@ -9,7 +9,7 @@
   var VOICE_KEY = 'pstack.readAloud.voice';
   var RATE_KEY = 'pstack.readAloud.rate';
   var API = '/api/tts/'; // trailing slash: vercel.json trailingSlash 308s the bare path
-  var CHUNK_MAX = 1200; // chars per TTS request; keeps latency + rate limits sane
+  var CHUNK_MAX = 700; // chars per TTS request; keeps latency + rate limits sane
 
   var VOICES = [
     ['en-US-AvaMultilingualNeural', 'Ava (US)'],
@@ -139,6 +139,7 @@
       var c = chunks[k];
       if (c.url) { URL.revokeObjectURL(c.url); c.url = null; }
       c.promise = null;
+      c._retried = null;
     }
   }
 
@@ -271,7 +272,8 @@
       if (state === 'playing') playChunk(idx + 1);
     });
     audio.addEventListener('error', function () {
-      if (state === 'playing' || state === 'loading') onError(new Error('audio playback failed'));
+      if (!audio.error) return; // spurious event (e.g. src cleared while paused)
+      if (state === 'playing' || state === 'loading') onError(new Error('audio playback failed (' + audio.error.code + ')'));
     });
 
     var savedVoice = null;
