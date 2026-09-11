@@ -74,6 +74,7 @@ The queries you ran, the items you opened, the places you looked. Be specific. T
 
 ### Direct Evidence Found
 For each piece that explicitly addresses the question:
+
 - **What it says**: verbatim quote or accurate paraphrase
 - **Where it's from**: PR #123, ticket ID, doc URL, chat permalink, commit hash, or file:line
 - **Author and date** (if available)
@@ -81,6 +82,7 @@ For each piece that explicitly addresses the question:
 
 ### Indirect / Circumstantial Evidence
 Items that don't explicitly answer the question but bear on it. For each:
+
 - **What it is**: brief description
 - **Where it's from**: location
 - **What it suggests**: what a careful reader might infer, and why. Name the inference chain.

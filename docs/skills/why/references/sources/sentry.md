@@ -40,6 +40,7 @@ Use the Sentry MCP.
    ```
 
    For a suspected issue, check:
+
    - **First seen.** When did the error start appearing?
    - **Last seen.** When did it stop? Does it line up with the target's ship date?
    - **Affected releases.** Which versions saw it? Which was the fix?
@@ -89,6 +90,7 @@ Use the Sentry MCP.
 ## What to return
 
 For each relevant issue:
+
 - Issue ID and title
 - Project and organization
 - First seen / last seen timestamps
