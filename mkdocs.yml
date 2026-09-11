@@ -1,0 +1,231 @@
+site_name: 'pstack: Complete Reader'
+site_url: https://pstack-docs-nishil-faldus-projects.vercel.app/
+repo_url: https://github.com/cursor/plugins
+repo_name: cursor/plugins
+theme:
+  name: material
+  palette:
+  - media: '(prefers-color-scheme: dark)'
+    scheme: slate
+    primary: black
+    accent: deep purple
+    toggle:
+      icon: material/weather-sunny
+      name: Switch to light mode
+  - media: '(prefers-color-scheme: light)'
+    scheme: default
+    primary: black
+    accent: deep purple
+    toggle:
+      icon: material/weather-night
+      name: Switch to dark mode
+  features:
+  - navigation.instant
+  - navigation.sections
+  - navigation.footer
+  - navigation.top
+  - search.suggest
+  - search.highlight
+  - content.code.copy
+markdown_extensions:
+- tables
+- sane_lists
+- attr_list
+- md_in_html
+- admonition
+- pymdownx.details: {}
+- pymdownx.superfences: {}
+- pymdownx.tasklist:
+    custom_checkbox: true
+- pymdownx.tilde: {}
+- pymdownx.tabbed:
+    alternate_style: true
+- pymdownx.highlight: {}
+- pymdownx.inlinehilite: {}
+plugins:
+- search
+extra_css:
+- stylesheets/extra.css
+nav:
+- Start: README.md
+- Principles:
+  - Attack The Premise: skills/principle-attack-the-premise/SKILL.md
+  - Boundary Discipline: skills/principle-boundary-discipline/SKILL.md
+  - Build The Lever: skills/principle-build-the-lever/SKILL.md
+  - Encode Lessons In Structure: skills/principle-encode-lessons-in-structure/SKILL.md
+  - Exhaust The Design Space: skills/principle-exhaust-the-design-space/SKILL.md
+  - Experience First: skills/principle-experience-first/SKILL.md
+  - Fix Root Causes: skills/principle-fix-root-causes/SKILL.md
+  - Foundational Thinking: skills/principle-foundational-thinking/SKILL.md
+  - Guard The Context Window: skills/principle-guard-the-context-window/SKILL.md
+  - Laziness Protocol: skills/principle-laziness-protocol/SKILL.md
+  - Make Operations Idempotent: skills/principle-make-operations-idempotent/SKILL.md
+  - Migrate Callers Then Delete Legacy Apis: skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md
+  - Minimize Reader Load: skills/principle-minimize-reader-load/SKILL.md
+  - Model The Domain: skills/principle-model-the-domain/SKILL.md
+  - Never Block On The Human: skills/principle-never-block-on-the-human/SKILL.md
+  - Outcome Oriented Execution: skills/principle-outcome-oriented-execution/SKILL.md
+  - Prove It Works: skills/principle-prove-it-works/SKILL.md
+  - Redesign From First Principles: skills/principle-redesign-from-first-principles/SKILL.md
+  - Separate Before Serializing Shared State: skills/principle-separate-before-serializing-shared-state/SKILL.md
+  - Sequence Verifiable Units: skills/principle-sequence-verifiable-units/SKILL.md
+  - Subtract Before You Add: skills/principle-subtract-before-you-add/SKILL.md
+  - Test Behavior Not Implementation: skills/principle-test-behavior-not-implementation/SKILL.md
+  - Type System Discipline: skills/principle-type-system-discipline/SKILL.md
+- Playbooks:
+  - Bug Fix: skills/poteto-mode/playbooks/bug-fix.md
+  - Feature: skills/poteto-mode/playbooks/feature.md
+  - Refactoring: skills/poteto-mode/playbooks/refactoring.md
+  - Perf Issue: skills/poteto-mode/playbooks/perf-issue.md
+  - Hillclimb: skills/poteto-mode/playbooks/hillclimb.md
+  - Authoring A Skill: skills/poteto-mode/playbooks/authoring-a-skill.md
+  - Autonomous Run: skills/poteto-mode/playbooks/autonomous-run.md
+  - Autopilot Full: skills/poteto-mode/playbooks/autopilot-full.md
+  - Autopilot Stack: skills/poteto-mode/playbooks/autopilot-stack.md
+  - Babysit: skills/poteto-mode/playbooks/babysit.md
+  - Eval: skills/poteto-mode/playbooks/eval.md
+  - Investigation: skills/poteto-mode/playbooks/investigation.md
+  - Multi Phase Plan: skills/poteto-mode/playbooks/multi-phase-plan.md
+  - Opening A Pr: skills/poteto-mode/playbooks/opening-a-pr.md
+  - Orchestrate: skills/poteto-mode/playbooks/orchestrate.md
+  - Pause Safely: skills/poteto-mode/playbooks/pause-safely.md
+  - Prototype: skills/poteto-mode/playbooks/prototype.md
+  - Runtime Forensics: skills/poteto-mode/playbooks/runtime-forensics.md
+  - Session Pickup: skills/poteto-mode/playbooks/session-pickup.md
+  - Shipping: skills/poteto-mode/playbooks/shipping.md
+  - Trace Forensics: skills/poteto-mode/playbooks/trace-forensics.md
+  - Visual Parity: skills/poteto-mode/playbooks/visual-parity.md
+  - Worktree Cleanup: skills/poteto-mode/playbooks/worktree-cleanup.md
+- Skills:
+  - Poteto Mode: skills/poteto-mode/SKILL.md
+  - Create Verification Skill: skills/create-verification-skill/SKILL.md
+  - Architect: skills/architect/SKILL.md
+  - Arena: skills/arena/SKILL.md
+  - Automate Me: skills/automate-me/SKILL.md
+  - Blast Radius: skills/blast-radius/SKILL.md
+  - Bro: skills/bro/SKILL.md
+  - Figure It Out: skills/figure-it-out/SKILL.md
+  - How: skills/how/SKILL.md
+  - Interrogate: skills/interrogate/SKILL.md
+  - Maintain Verification Skill: skills/maintain-verification-skill/SKILL.md
+  - Make Bot Ui: skills/make-bot-ui/SKILL.md
+  - No Comments: skills/no-comments/SKILL.md
+  - Recall: skills/recall/SKILL.md
+  - Reflect: skills/reflect/SKILL.md
+  - Setup Pstack: skills/setup-pstack/SKILL.md
+  - Show Me Your Work: skills/show-me-your-work/SKILL.md
+  - Swarm: skills/swarm/SKILL.md
+  - Tdd: skills/tdd/SKILL.md
+  - Teach: skills/teach/SKILL.md
+  - Technical Writing: skills/technical-writing/SKILL.md
+  - Typescript Best Practices: skills/typescript-best-practices/SKILL.md
+  - Unslop: skills/unslop/SKILL.md
+  - Why: skills/why/SKILL.md
+- Articles:
+  - Overview: articles/index.md
+  - 2026-09-09 - The Complete Guide to pstack Pt. 2: articles/2026-09-09-the-complete-guide-to-pstack-pt-2.md
+  - 2026-08-31 - The Complete Guide to pstack Pt. 1: articles/2026-08-31-the-complete-guide-to-pstack-pt-1.md
+  - 2026-06-24 - Loops You Can Trust: articles/2026-06-24-loops-you-can-trust.md
+  - 2026-05-25 - How I Use Cursor: articles/2026-05-25-how-i-use-cursor.md
+  - 2026-01-23 - Coding is Dead, Long Live Engineering: articles/2026-01-23-coding-is-dead-long-live-engineering.md
+- Posts:
+  - Overview: posts/index.md
+  - 2026-09-10 - clean up your sidebar! one tip I have is that you can think of Proje…: posts/2026-09-10-2098186080839475568.md
+  - 2026-09-10 - cursor now has the most beautiful sidebar of any AI coding tool. i h…: posts/2026-09-10-2098180318612300142.md
+  - 2026-09-09 - everyone spent ten years learning to code and it turns out the termi…: posts/2026-09-09-2097580035930751417.md
+  - 2026-09-02 - if you have pstack i would suggest using "/poteto-mode update and ev…: posts/2026-09-02-2094998865229607159.md
+  - 2026-09-01 - i'd suggest asking your bot to spawn cloud agents to do the coding w…: posts/2026-09-01-2094603321894162517.md
+  - 2026-09-01 - im a fan of monorepos if you are able to maintain it. easy to change…: posts/2026-09-01-2094601342660833461.md
+  - 2026-08-31 - i have an automation that maintains it and keeps it up to date! i've…: posts/2026-08-31-2094492951934304568.md
+  - 2026-08-29 - we have agentic review! most PRs get auto reviewed and approved, we …: posts/2026-08-29-2093624029504745541.md
+  - 2026-08-29 - i actually dont know about the first question, i went to college in …: posts/2026-08-29-2093545099884110006.md
+  - 2026-08-29 - i made you a bot! i'm not sure if it's good yet but i think if you t…: posts/2026-08-29-2093544292660965749.md
+  - 2026-08-29 - did you know that you can run cursor cloud agents on your own machin…: posts/2026-08-29-2093625075119632399.md
+  - 2026-08-28 - yup, we ban comments in the grok bot codebase too. also made a skill…: posts/2026-08-28-2093151162333880463.md
+  - 2026-08-27 - i still read the code! i have agents constantly look through all the…: posts/2026-08-27-2093108757299638301.md
+  - 2026-08-27 - they're good too! i think they complement each other. matt's skills …: posts/2026-08-27-2092852487716065681.md
+  - 2026-08-26 - i think to build mastery in anything you need to put in the hours an…: posts/2026-08-26-2092500605348765769.md
+  - 2026-08-24 - yes!! we are 100% StyleX now for Cursor and Grok Bot and it’s great.…: posts/2026-08-24-2091925411580232187.md
+  - 2026-08-21 - if your definition of coding is just the act of typing code, then ye…: posts/2026-08-21-2091229896907595821.md
+  - 2026-08-19 - 1. i read code after it gets merged and course correct by fixing the…: posts/2026-08-19-2090147276434112518.md
+  - 2026-08-17 - humans weren't reading the code anymore so this wasn't being properl…: posts/2026-08-17-2089250780083859715.md
+  - 2026-08-13 - worktrees are dead. cloud agents are the future. they've allowed me …: posts/2026-08-13-2087977008253071816.md
+  - '2026-08-11 - fun fact: because of Dune, my agents now merge their own PRs. i do c…': posts/2026-08-11-2087244771849089270.md
+  - 2026-08-08 - i find smaller PRs easier to merge, and our agents have a great time…: posts/2026-08-08-2085910453692346737.md
+  - 2026-08-05 - if you haven't already setup @cursor_ai cloud agents, i highly recom…: posts/2026-08-05-2084844251100438890.md
+  - '2026-08-02 - step 1: refactor/rewrite your codebase such that agents write good c…': posts/2026-08-02-2084027318113386698.md
+  - 2026-07-30 - if you're new to using pstack, don't forget to run /create-verificat…: posts/2026-07-30-2093414407196012990.md
+  - 2026-07-29 - having a good, fast, and cheap model like Grok 4.5 on fast mode chan…: posts/2026-07-29-2082556871358251345.md
+  - 2026-07-18 - organic architecture good codebases have always had strong foundatio…: posts/2026-07-18-2078527882499150286.md
+  - 2026-06-12 - start with nothing. don’t download any plugins or skills. no AGENTS.…: posts/2026-06-12-2065261102888575028.md
+  - '2026-06-02 - what i do is add disable-model-invocation: true to all my skills, th…': posts/2026-06-02-2061609709942223020.md
+  - 2026-05-27 - this is why i made pstack use multi-model workflows. if you like opu…: posts/2026-05-27-2059793670359204225.md
+  - '2026-05-25 - btw a word of caution if you''re price conscious: using multiple agen…': posts/2026-05-25-2059046010966684134.md
+  - 2026-04-25 - i'm increasingly convinced that the value of orchestrating many agen…: posts/2026-04-25-2048092593087721736.md
+  - 2026-04-16 - the best part about cursor is using all the models. many of my skill…: posts/2026-04-16-2044824938633466228.md
+  - 2026-03-03 - a useful principle i have in noodle's repo is encoding lessons in st…: posts/2026-03-03-2028924706305524131.md
+  - 2026-02-21 - 100%, thats why i've been extracting principles as i correct them. t…: posts/2026-02-21-2025326613714604158.md
+- Subagents:
+  - Comment Sicko: agents/comment-sicko.md
+  - Poteto Agent: agents/poteto-agent.md
+- Benny:
+  - Overview: automations/benny/README.md
+  - For Agents: automations/benny/FOR_AGENTS.md
+  - Skill: automations/benny/skills/reproduce-and-fix-issues/SKILL.md
+  - Control Adapter: automations/benny/skills/reproduce-and-fix-issues/references/control-adapter.md
+  - Feature Map.Example: automations/benny/skills/reproduce-and-fix-issues/references/feature-map.example.md
+  - Verify Existing Fix: automations/benny/skills/reproduce-and-fix-issues/references/verify-existing-fix.md
+  - Skill: automations/benny/skills/setup-benny/SKILL.md
+  - Skill: automations/benny/skills/triage-issue-reports/SKILL.md
+  - Routing.Example: automations/benny/skills/triage-issue-reports/references/routing.example.md
+  - Reproduce Automation Prompt: automations/benny/templates/reproduce-automation-prompt.md
+  - Triage Automation Prompt: automations/benny/templates/triage-automation-prompt.md
+- Guide:
+  - 01 Setup: docs/guide/01-setup.md
+  - 02 Poteto Mode: docs/guide/02-poteto-mode.md
+  - 03 Understand: docs/guide/03-understand.md
+  - 04 Design: docs/guide/04-design.md
+  - 05 Build And Clean: docs/guide/05-build-and-clean.md
+  - 06 Verify And Ship: docs/guide/06-verify-and-ship.md
+  - 07 Overnight: docs/guide/07-overnight.md
+  - 08 Principles: docs/guide/08-principles.md
+  - 09 Make It Yours: docs/guide/09-make-it-yours.md
+  - 10 Recipes And Pitfalls: docs/guide/10-recipes-and-pitfalls.md
+  - Readme: docs/guide/README.md
+- Appendix:
+  - Cursor Team Kit: appendix/cursor-team-kit/README.md
+  - Plugins Repository Index: appendix/plugins-index.md
+- Remaining Reference Docs:
+  - appendix/cursor-team-kit/control-cli/SKILL.md: appendix/cursor-team-kit/control-cli/SKILL.md
+  - appendix/cursor-team-kit/control-ui/SKILL.md: appendix/cursor-team-kit/control-ui/SKILL.md
+  - appendix/cursor-team-kit/deslop/SKILL.md: appendix/cursor-team-kit/deslop/SKILL.md
+  - skills/architect/references/design-red-flags.md: skills/architect/references/design-red-flags.md
+  - skills/architect/references/rationale-template.md: skills/architect/references/rationale-template.md
+  - skills/architect/references/runner-prompt.md: skills/architect/references/runner-prompt.md
+  - skills/create-verification-skill/references/feature-map-example/README.md: skills/create-verification-skill/references/feature-map-example/README.md
+  - skills/create-verification-skill/references/feature-map-example/create-note.md: skills/create-verification-skill/references/feature-map-example/create-note.md
+  - skills/create-verification-skill/references/feature-map-example/search.md: skills/create-verification-skill/references/feature-map-example/search.md
+  - skills/how/references/explainer-prompt.md: skills/how/references/explainer-prompt.md
+  - skills/how/references/explorer-prompt.md: skills/how/references/explorer-prompt.md
+  - skills/interrogate/references/code-quality-review.md: skills/interrogate/references/code-quality-review.md
+  - skills/interrogate/references/lead-judgment.md: skills/interrogate/references/lead-judgment.md
+  - skills/interrogate/references/reviewer-prompt.md: skills/interrogate/references/reviewer-prompt.md
+  - skills/interrogate/references/rubric.md: skills/interrogate/references/rubric.md
+  - skills/poteto-mode/references/bugbot-triage.md: skills/poteto-mode/references/bugbot-triage.md
+  - skills/reflect/references/divergent-reviewer.md: skills/reflect/references/divergent-reviewer.md
+  - skills/reflect/references/judgment-reviewer.md: skills/reflect/references/judgment-reviewer.md
+  - skills/reflect/references/synthesizer.md: skills/reflect/references/synthesizer.md
+  - skills/reflect/references/tooling-reviewer.md: skills/reflect/references/tooling-reviewer.md
+  - skills/typescript-best-practices/references/patterns.md: skills/typescript-best-practices/references/patterns.md
+  - skills/why/references/epistemics.md: skills/why/references/epistemics.md
+  - skills/why/references/investigator-prompt.md: skills/why/references/investigator-prompt.md
+  - skills/why/references/source-playbook.md: skills/why/references/source-playbook.md
+  - skills/why/references/sources/code-archaeology.md: skills/why/references/sources/code-archaeology.md
+  - skills/why/references/sources/databricks.md: skills/why/references/sources/databricks.md
+  - skills/why/references/sources/datadog.md: skills/why/references/sources/datadog.md
+  - skills/why/references/sources/incident-postmortem.md: skills/why/references/sources/incident-postmortem.md
+  - skills/why/references/sources/linear.md: skills/why/references/sources/linear.md
+  - skills/why/references/sources/notion.md: skills/why/references/sources/notion.md
+  - skills/why/references/sources/sentry.md: skills/why/references/sources/sentry.md
+  - skills/why/references/sources/slack.md: skills/why/references/sources/slack.md
+  - skills/why/references/synthesizer-prompt.md: skills/why/references/synthesizer-prompt.md
