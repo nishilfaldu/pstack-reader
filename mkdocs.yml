@@ -130,17 +130,27 @@ nav:
   - 2026-01-23 - Coding is Dead, Long Live Engineering: articles/2026-01-23-coding-is-dead-long-live-engineering.md
 - Posts:
   - Overview: posts/index.md
+  - 2026-09-11 - since it's meant to be explanatory, i called it explicitly mainly to…: posts/2026-09-11-2098306157450580225.md
+  - 2026-09-10 - the coordinator should see that you dragged it in, and it should be …: posts/2026-09-10-2098224680587174143.md
+  - 2026-09-10 - some of my projects merge their own PRs, i review after it lands: posts/2026-09-10-2098224482372800668.md
+  - 2026-09-10 - i think some people have had success storing ADRs in the repo, but p…: posts/2026-09-10-2098214871943033209.md
   - 2026-09-10 - clean up your sidebar! one tip I have is that you can think of Proje…: posts/2026-09-10-2098186080839475568.md
+  - 2026-09-10 - try pstack with Projects! you'll want to run /setup-pstack first to …: posts/2026-09-10-2098181726782841254.md
   - 2026-09-10 - cursor now has the most beautiful sidebar of any AI coding tool. i h…: posts/2026-09-10-2098180318612300142.md
+  - 2026-09-10 - depends on your model choice! i tend to use Fable as the main coordi…: posts/2026-09-10-2098173712294166609.md
+  - 2026-09-10 - yup, it will try to fix the workaround in the comment in the code it…: posts/2026-09-10-2098154785488908294.md
+  - 2026-09-10 - yeah i never use plan mode: posts/2026-09-10-2098116500460798276.md
+  - 2026-09-10 - i use both, and yes! try: posts/2026-09-10-2098116415438098826.md
   - 2026-09-09 - everyone spent ten years learning to code and it turns out the termi…: posts/2026-09-09-2097580035930751417.md
   - 2026-09-02 - if you have pstack i would suggest using "/poteto-mode update and ev…: posts/2026-09-02-2094998865229607159.md
   - 2026-09-01 - i'd suggest asking your bot to spawn cloud agents to do the coding w…: posts/2026-09-01-2094603321894162517.md
   - 2026-09-01 - im a fan of monorepos if you are able to maintain it. easy to change…: posts/2026-09-01-2094601342660833461.md
   - 2026-08-31 - i have an automation that maintains it and keeps it up to date! i've…: posts/2026-08-31-2094492951934304568.md
+  - 2026-08-29 - did you know that you can run cursor cloud agents on your own machin…: posts/2026-08-29-2093625075119632399.md
   - 2026-08-29 - we have agentic review! most PRs get auto reviewed and approved, we …: posts/2026-08-29-2093624029504745541.md
   - 2026-08-29 - i actually dont know about the first question, i went to college in …: posts/2026-08-29-2093545099884110006.md
   - 2026-08-29 - i made you a bot! i'm not sure if it's good yet but i think if you t…: posts/2026-08-29-2093544292660965749.md
-  - 2026-08-29 - did you know that you can run cursor cloud agents on your own machin…: posts/2026-08-29-2093625075119632399.md
+  - 2026-07-30 - if you're new to using pstack, don't forget to run /create-verificat…: posts/2026-07-30-2093414407196012990.md
   - 2026-08-28 - yup, we ban comments in the grok bot codebase too. also made a skill…: posts/2026-08-28-2093151162333880463.md
   - 2026-08-27 - i still read the code! i have agents constantly look through all the…: posts/2026-08-27-2093108757299638301.md
   - 2026-08-27 - they're good too! i think they complement each other. matt's skills …: posts/2026-08-27-2092852487716065681.md
@@ -154,7 +164,6 @@ nav:
   - 2026-08-08 - i find smaller PRs easier to merge, and our agents have a great time…: posts/2026-08-08-2085910453692346737.md
   - 2026-08-05 - if you haven't already setup @cursor_ai cloud agents, i highly recom…: posts/2026-08-05-2084844251100438890.md
   - '2026-08-02 - step 1: refactor/rewrite your codebase such that agents write good c…': posts/2026-08-02-2084027318113386698.md
-  - 2026-07-30 - if you're new to using pstack, don't forget to run /create-verificat…: posts/2026-07-30-2093414407196012990.md
   - 2026-07-29 - having a good, fast, and cheap model like Grok 4.5 on fast mode chan…: posts/2026-07-29-2082556871358251345.md
   - 2026-07-18 - organic architecture good codebases have always had strong foundatio…: posts/2026-07-18-2078527882499150286.md
   - 2026-06-12 - start with nothing. don’t download any plugins or skills. no AGENTS.…: posts/2026-06-12-2065261102888575028.md
