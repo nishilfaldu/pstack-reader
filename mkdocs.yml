@@ -46,6 +46,9 @@ plugins:
 - search
 extra_css:
 - stylesheets/extra.css
+- stylesheets/read-aloud.css
+extra_javascript:
+- javascripts/read-aloud.js
 nav:
 - Start: README.md
 - Principles:
