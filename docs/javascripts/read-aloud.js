@@ -8,7 +8,7 @@
 
   var VOICE_KEY = 'pstack.readAloud.voice';
   var RATE_KEY = 'pstack.readAloud.rate';
-  var API = '/api/tts';
+  var API = '/api/tts/'; // trailing slash: vercel.json trailingSlash 308s the bare path
   var CHUNK_MAX = 1200; // chars per TTS request; keeps latency + rate limits sane
 
   var VOICES = [

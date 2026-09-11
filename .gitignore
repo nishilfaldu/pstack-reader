@@ -2,3 +2,5 @@ node_modules/
 site/
 .venv/
 .vercel/
+.vercel
+.env*
