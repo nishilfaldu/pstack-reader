@@ -133,6 +133,8 @@ nav:
   - 2026-01-23 - Coding is Dead, Long Live Engineering: articles/2026-01-23-coding-is-dead-long-live-engineering.md
 - Posts:
   - Overview: posts/index.md
+  - 2026-09-21 - i still like react but depends on my goals: posts/2026-09-21-2102280124867690529.md
+  - 2026-09-21 - my agents merge their own PRs, no human reviews: posts/2026-09-21-2102201638824157449.md
   - 2026-09-20 - in theory you don't need pstack anymore if your code is all in Bend: posts/2026-09-20-2101843748733006165.md
   - 2026-09-20 - run /setup-pstack too so you can choose which models are used!: posts/2026-09-20-2101843247052341589.md
   - 2026-09-20 - i got them to do the gauntlet loop and i approve new designs: posts/2026-09-20-2101755751618502919.md
