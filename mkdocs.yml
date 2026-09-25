@@ -133,6 +133,11 @@ nav:
   - 2026-01-23 - Coding is Dead, Long Live Engineering: articles/2026-01-23-coding-is-dead-long-live-engineering.md
 - Posts:
   - Overview: posts/index.md
+  - 2026-09-24 - i go deeper than that, i have one project per 'problem space'. eg i …: posts/2026-09-24-2103278176852119858.md
+  - 2026-09-24 - where are your skills installed? if its in the repo your project sho…: posts/2026-09-24-2103272541360099800.md
+  - 2026-09-24 - i use cursor for coding (grok bot can kick off cloud agents), and gr…: posts/2026-09-24-2103272103042773502.md
+  - 2026-09-24 - yup, just ask your coordinator to spawn a local worker: posts/2026-09-24-2103254832245354522.md
+  - 2026-09-24 - cursor projects are just too good with pstack. i now routinely have …: posts/2026-09-24-2103252563999232092.md
   - 2026-09-21 - i still like react but depends on my goals: posts/2026-09-21-2102280124867690529.md
   - 2026-09-21 - my agents merge their own PRs, no human reviews: posts/2026-09-21-2102201638824157449.md
   - 2026-09-20 - in theory you don't need pstack anymore if your code is all in Bend: posts/2026-09-20-2101843748733006165.md
