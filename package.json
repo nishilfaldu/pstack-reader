@@ -2,8 +2,5 @@
   "name": "pstack-reader",
   "private": true,
   "version": "1.0.0",
-  "description": "pstack docs site plus a free neural read-aloud endpoint (api/tts.js)",
-  "dependencies": {
-    "msedge-tts": "^2.0.7"
-  }
+  "description": "pstack docs reader"
 }
