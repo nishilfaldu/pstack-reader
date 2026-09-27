@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import { Geist } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import { shareImage, siteDescription, siteName, siteUrl } from '@/lib/site';
 import './global.css';
 
@@ -25,5 +26,5 @@ export const viewport: Viewport = {
   themeColor: [{ media: '(prefers-color-scheme: light)', color: '#ffffff' }, { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' }],
 };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <html lang="en" suppressHydrationWarning><body className={`${sans.variable} flex min-h-screen flex-col`}><RootProvider>{children}</RootProvider></body></html>;
+  return <html lang="en" suppressHydrationWarning><body className={`${sans.variable} flex min-h-screen flex-col`}><RootProvider>{children}</RootProvider><Analytics /></body></html>;
 }

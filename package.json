@@ -10,6 +10,7 @@
     "generate:brand": "node scripts/generate-brand-assets.mjs"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "beautiful-mermaid": "^1.1.3",
     "fumadocs-core": "^16.0.0",
     "fumadocs-mdx": "^15.4.5",
