@@ -5,6 +5,9 @@ import { source } from '@/lib/source';
 import { chapters, chapterHref } from '@/lib/chapters';
 import upstreamPaths from '@/lib/upstream-paths.json';
 import { getMDXComponents } from '@/components/mdx';
+import { pageDescription } from '@/lib/page-description';
+import { docsUrl, shareImage, siteName } from '@/lib/site';
+import type { Metadata } from 'next';
 
 type Params = Promise<{ slug?: string[] }>;
 const upstreamBase = 'https://github.com/cursor/plugins/blob/main/pstack/';
@@ -33,9 +36,18 @@ export default async function Page({ params }: { params: Params }) {
   </DocsPage>;
 }
 export function generateStaticParams() { return source.generateParams(); }
-export async function generateMetadata({ params }: { params: Params }) {
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   const page = source.getPage(slug);
   if (!page) notFound();
-  return { title: page.data.title, description: page.data.description };
+  const title = page.data.title;
+  const description = page.data.description || pageDescription(slug, title);
+  const url = docsUrl(slug);
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: { type: 'article', siteName, title, description, url, images: [{ url: shareImage, width: 1200, height: 630, alt: 'pstack guide and reference library' }] },
+    twitter: { card: 'summary_large_image', title, description, images: [shareImage] },
+  };
 }

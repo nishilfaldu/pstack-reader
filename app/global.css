@@ -60,3 +60,13 @@ body { font-family: var(--font-sans), Arial, sans-serif; }
 .mermaid-diagram { margin: 1.75rem 0; padding: 1.25rem; border: 1px solid var(--color-fd-border); border-radius: .6rem; background: var(--color-fd-card); overflow-x: auto; }
 .mermaid-diagram svg { display: block; min-width: 650px; max-width: none; height: auto; margin: auto; }
 .mermaid-diagram svg text { font-family: var(--font-sans), Arial, sans-serif !important; }
+.not-found { flex: 1; display: grid; place-items: center; padding: 3rem 1.5rem; background: var(--color-fd-background); color: var(--color-fd-foreground); }
+.not-found-inner { width: min(100%, 36rem); }
+.not-found-brand { display: inline-flex; align-items: center; gap: .4rem; font-weight: 650; letter-spacing: -.04em; margin-bottom: 4rem; }
+.not-found-brand img { width: 3rem; height: auto; }
+.not-found-number { font-size: .85rem; font-weight: 650; letter-spacing: .04em; color: var(--color-fd-muted-foreground); margin-bottom: 1.5rem; }
+.not-found h1 { font-size: clamp(2.5rem, 7vw, 4.25rem); font-weight: 550; line-height: 1.05; letter-spacing: -.055em; margin: 0 0 1.25rem; }
+.not-found-inner > p:not(.not-found-number) { max-width: 43ch; color: var(--color-fd-muted-foreground); line-height: 1.7; }
+.not-found-links { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 2rem; font-weight: 550; }
+.not-found-links a { text-decoration: underline; text-underline-offset: .25em; }
+.not-found-links a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }

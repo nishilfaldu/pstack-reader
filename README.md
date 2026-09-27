@@ -25,4 +25,4 @@ The copied material retains its upstream license in `UPSTREAM-LICENSE`. The audi
 
 ## Deployment
 
-This repository is linked to the `pstack-docs` Vercel project. The site is served at [pstack-reader.vercel.app](https://pstack-reader.vercel.app).
+This repository is linked to the `pstack-docs` Vercel project. The canonical site is [pstack.nishilfaldu.site](https://pstack.nishilfaldu.site); [pstack-reader.vercel.app](https://pstack-reader.vercel.app) also serves the reader. The potato favicon, Apple touch icon, and social preview can be regenerated with `npm run generate:brand`.
