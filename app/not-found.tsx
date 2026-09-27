@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { ReaderDisclaimer } from '@/components/reader-disclaimer';
 
 export default function NotFound() {
   return <main className="not-found">
@@ -12,6 +13,7 @@ export default function NotFound() {
         <Link href="/docs">Read the guide</Link>
         <Link href="/docs/playbooks">Browse playbooks</Link>
       </div>
+      <footer className="reader-disclaimer reader-disclaimer-footer"><ReaderDisclaimer /></footer>
     </div>
   </main>;
 }

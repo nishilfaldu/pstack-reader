@@ -5,6 +5,7 @@ import { source } from '@/lib/source';
 import { chapters, chapterHref } from '@/lib/chapters';
 import upstreamPaths from '@/lib/upstream-paths.json';
 import { getMDXComponents } from '@/components/mdx';
+import { ReaderDisclaimer } from '@/components/reader-disclaimer';
 import { pageDescription } from '@/lib/page-description';
 import { docsUrl, shareImage, siteName } from '@/lib/site';
 import type { Metadata } from 'next';
@@ -27,12 +28,14 @@ export default async function Page({ params }: { params: Params }) {
   return <DocsPage toc={page.data.toc} footer={{ enabled: !isGuide }}>
     {isGuide && <div className="chapter-meta">{index === 0 ? 'Start here' : `Chapter ${String(index).padStart(2, '0')} of 10`}</div>}
     <DocsTitle>{page.data.title}</DocsTitle>
+    {!route && <p className="reader-disclaimer reader-disclaimer-intro"><ReaderDisclaimer /></p>}
     <DocsBody><MDX components={getMDXComponents()} /></DocsBody>
     {isGuide && <nav className="chapter-navigation" aria-label="Chapter navigation">
       {previous ? <Link href={chapterHref(previous.slug)} className="chapter-link"><span>Previous chapter</span><strong>← {previous.title}</strong></Link> : <span />}
       {next ? <Link href={chapterHref(next.slug)} className="chapter-link next"><span>Next chapter</span><strong>{next.title} →</strong></Link> : <Link href="/docs/playbooks" className="chapter-link next"><span>Finished the guide</span><strong>Explore the reference library →</strong></Link>}
     </nav>}
     {sourcePath && <p className="source-note">Source: <a href={upstreamBase + sourcePath} target="_blank" rel="noreferrer">cursor/plugins · {sourcePath}</a></p>}
+    <footer className="reader-disclaimer reader-disclaimer-footer"><ReaderDisclaimer /></footer>
   </DocsPage>;
 }
 export function generateStaticParams() { return source.generateParams(); }
