@@ -1,6 +1,8 @@
-node_modules/
-site/
-.venv/
-.vercel/
+node_modules
+.next
 .vercel
 .env*
+!.env.example
+*.tsbuildinfo
+
+.source
