@@ -85,3 +85,5 @@ Green is not the same as safe. When you're ready to land, say so:
 ```
 
 The [Shipping playbook](/docs/playbooks/shipping) verifies each PR independently before it arms anything. One fresh agent per PR proves the behavior live, and the agent that judges a change is never the one that wrote it. Then Shipping lands only the contiguous verified run from the bottom, one PR at a time through GitHub by default or Origin when its CLI is available, and reports the first PR that breaks the chain. A verified PR sitting above an unverified one waits, because merging it would pull the gap in underneath.
+
+Next: [Run work while you sleep](/docs/07-overnight).

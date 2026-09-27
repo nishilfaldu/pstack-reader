@@ -24,7 +24,7 @@
 }
 body { font-family: var(--font-sans), Arial, sans-serif; }
 .brand { display: inline-flex; align-items: center; gap: .62rem; font-weight: 650; letter-spacing: -.035em; font-size: 1rem; }
-.brand-mark { display: inline-grid; place-items: center; width: 1.38rem; height: 1.38rem; border: 1.5px solid currentColor; border-radius: .33rem; font-size: .95rem; font-weight: 700; line-height: 1; }
+.brand-potato { display: block; width: 2.4rem; height: auto; object-fit: contain; }
 #nd-sidebar { font-size: .84rem; }
 #nd-sidebar a { line-height: 1.4; }
 #nd-page { max-width: 1070px; }
@@ -41,13 +41,6 @@ body { font-family: var(--font-sans), Arial, sans-serif; }
 #nd-page .prose pre code, #nd-page .prose pre .line { display: block; white-space: pre-wrap; overflow-wrap: anywhere; }
 #nd-page .prose :not(pre) > code { white-space: normal; overflow-wrap: anywhere; font-size: .87em; }
 #nd-page .prose img { border-radius: .45rem; }
-.reference-shelves { margin-top: 3.5rem; }
-.reference-shelves h2 { font-size: 1.5rem; font-weight: 560; letter-spacing: -.04em; margin-bottom: 1rem; }
-.reference-shelves > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
-.reference-shelves a { display: flex; flex-direction: column; gap: .55rem; border: 1px solid var(--color-fd-border); border-radius: .6rem; padding: 1.1rem; min-height: 7.5rem; }
-.reference-shelves a:hover { background: var(--color-fd-muted); }
-.reference-shelves strong { font-size: .9rem; font-weight: 570; }
-.reference-shelves span { color: var(--color-fd-muted-foreground); font-size: .83rem; line-height: 1.55; }
 .chapter-navigation { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-top: 1px solid var(--color-fd-border); margin-top: 4rem; padding-top: 1.5rem; }
 .chapter-link { display: flex; flex-direction: column; gap: .4rem; color: var(--color-fd-foreground); padding: .6rem 0; }
 .chapter-link span { color: var(--color-fd-muted-foreground); font-size: .76rem; font-weight: 500; }
@@ -64,3 +57,6 @@ body { font-family: var(--font-sans), Arial, sans-serif; }
 .reference-shelves strong { font-size: .9rem; font-weight: 570; }
 .reference-shelves span { color: var(--color-fd-muted-foreground); font-size: .83rem; line-height: 1.55; }
 .chapter-navigation { gap: .7rem; } }
+.mermaid-diagram { margin: 1.75rem 0; padding: 1.25rem; border: 1px solid var(--color-fd-border); border-radius: .6rem; background: var(--color-fd-card); overflow-x: auto; }
+.mermaid-diagram svg { display: block; min-width: 650px; max-width: none; height: auto; margin: auto; }
+.mermaid-diagram svg text { font-family: var(--font-sans), Arial, sans-serif !important; }

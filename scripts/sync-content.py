@@ -52,14 +52,13 @@ def destination(src: PurePosixPath) -> PurePosixPath:
 
 
 def page_title(path: PurePosixPath, body: str) -> str:
-    if path == PurePosixPath('README.md'):
-        return 'About pstack'
-    heading = re.search(r'^# (.+)$', body, re.M)
-    if heading and not path.parts[:3] == ('skills', 'poteto-mode', 'playbooks'):
+    heading = re.match(r'^#{1,6} (.+)$', body, re.M)
+    if heading:
         return re.sub(r'[`*]', '', heading.group(1)).strip()
-    if path.name == 'SKILL.md':
-        return path.parent.name.replace('principle-', '').replace('-', ' ').title()
-    return path.stem.replace('-', ' ').replace('_', ' ').replace('.', ' ').title()
+    words = path.parent.name if path.name == 'SKILL.md' else path.stem
+    words = words.removeprefix('principle-').replace('-', ' ').replace('_', ' ').replace('.', ' ')
+    acronyms = {'pr': 'PR', 'api': 'API', 'ui': 'UI', 'tdd': 'TDD', 'mcp': 'MCP', 'cli': 'CLI', 'json': 'JSON', 'yaml': 'YAML'}
+    return ' '.join(acronyms.get(word.lower(), word.capitalize() if i == 0 else word.lower()) for i, word in enumerate(words.split()))
 
 
 def split_frontmatter(content: str) -> str:
@@ -116,7 +115,7 @@ def write_index(folder: PurePosixPath, title: str, introduction: str, entries: l
     dest = TARGET / folder / 'index.mdx'
     dest.parent.mkdir(parents=True, exist_ok=True)
     links = '\n'.join('- [' + label + '](/docs/' + str(route).removesuffix('.mdx').removesuffix('/index') + ')' for label, route in entries)
-    dest.write_text('---\ntitle: ' + json.dumps(title) + '\n---\n\n' + introduction + '\n\n' + links + '\n')
+    dest.write_text('---\ntitle: ' + json.dumps(title) + '\n---\n\n' + links + '\n')
 
 
 def main() -> None:
@@ -129,12 +128,10 @@ def main() -> None:
         body = split_frontmatter(raw) if source.suffix == '.md' else '```' + source.suffix.lstrip('.') + '\n' + raw.rstrip() + '\n```\n'
         title = page_title(source, body) if source.suffix == '.md' else source.name.replace('.', ' ').replace('-', ' ').title()
         titles[source] = title
-        body = re.sub(r'^# .+\n\n?', '', body, count=1)
+        body = re.sub(r'^# [^\n]+\n\n?', '', body, count=1)
         body = rewrite_links(body, source, destinations)
         body = safe_mdx(body)
         body = re.sub(r'[ \t]+$', '', body, flags=re.M)
-        if source.parts[:2] == ('docs', 'guide'):
-            body = re.sub(r'^Next: .*\n?', '', body, flags=re.M)
         doc = '---\ntitle: ' + json.dumps(title) + '\n---\n\n' + body.rstrip() + '\n'
         output = TARGET / target
         output.parent.mkdir(parents=True, exist_ok=True)

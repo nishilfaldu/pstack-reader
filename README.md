@@ -18,9 +18,10 @@ The current content was copied from `cursor/plugins` commit `ecc249f1e306fc64ddf
 ```bash
 python3 scripts/sync-content.py /path/to/plugins/pstack
 npm run build
+python3 scripts/audit-source.py /path/to/plugins/pstack
 ```
 
-The copied material retains its upstream license in `UPSTREAM-LICENSE`. The sync script copies source text, gives every document a Fumadocs route, groups pages by source directory, rewrites links between copied pages, and records upstream paths in `lib/upstream-paths.json`. The guide chapter order lives in `content/docs/meta.json` and `lib/chapters.ts`.
+The copied material retains its upstream license in `UPSTREAM-LICENSE`. The audit compares every published source page and guide image against the pinned upstream commit. The sync script copies source text, gives every document a Fumadocs route, groups pages by source directory, rewrites links between copied pages, and records upstream paths in `lib/upstream-paths.json`. The guide chapter order lives in `content/docs/meta.json` and `lib/chapters.ts`.
 
 ## Deployment
 
