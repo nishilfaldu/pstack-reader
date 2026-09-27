@@ -1,6 +1,5 @@
 ---
 title: "Steer with principle names"
-description: "Chapter 8 of the pstack guide"
 ---
 
 pstack ships 23 principles as individual skills. `/poteto-mode` reads their index at the start of every multi-step task, applies the ones the task triggers, and names each applied principle in its reply along with the decision it changed.
@@ -33,40 +32,40 @@ Each phrase lands because the rule behind it is specific. The agent still has to
 
 The core principles decide how much to build and when to rethink the design:
 
-- [Laziness Protocol](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-laziness-protocol/SKILL.md) prefers deletion and the smallest change that solves the problem.
-- [Foundational Thinking](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-foundational-thinking/SKILL.md) chooses the core data structures before writing logic.
-- [Redesign from First Principles](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-redesign-from-first-principles/SKILL.md) integrates a new requirement as if it had been there from day one.
-- [Attack the Premise](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-attack-the-premise/SKILL.md) questions the premise that two or more failed fixes shared, after a census of which actors hold the imbalance.
-- [Subtract Before You Add](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-subtract-before-you-add/SKILL.md) removes dead weight before building on top of it.
-- [Minimize Reader Load](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-minimize-reader-load/SKILL.md) collapses layers and hidden state a reader must hold in their head.
-- [Outcome-Oriented Execution](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-outcome-oriented-execution/SKILL.md) converges rewrites on the target design instead of preserving throwaway compatibility states.
-- [Experience First](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-experience-first/SKILL.md) chooses the user's result over implementation convenience.
-- [Exhaust the Design Space](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-exhaust-the-design-space/SKILL.md) builds two or three competing prototypes when there's no precedent.
-- [Build the Lever](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-build-the-lever/SKILL.md) builds the script that does or proves the work, so a reviewer can rerun it.
+- [Laziness Protocol](/docs/skills/principles/laziness-protocol) prefers deletion and the smallest change that solves the problem.
+- [Foundational Thinking](/docs/skills/principles/foundational-thinking) chooses the core data structures before writing logic.
+- [Redesign from First Principles](/docs/skills/principles/redesign-from-first-principles) integrates a new requirement as if it had been there from day one.
+- [Attack the Premise](/docs/skills/principles/attack-the-premise) questions the premise that two or more failed fixes shared, after a census of which actors hold the imbalance.
+- [Subtract Before You Add](/docs/skills/principles/subtract-before-you-add) removes dead weight before building on top of it.
+- [Minimize Reader Load](/docs/skills/principles/minimize-reader-load) collapses layers and hidden state a reader must hold in their head.
+- [Outcome-Oriented Execution](/docs/skills/principles/outcome-oriented-execution) converges rewrites on the target design instead of preserving throwaway compatibility states.
+- [Experience First](/docs/skills/principles/experience-first) chooses the user's result over implementation convenience.
+- [Exhaust the Design Space](/docs/skills/principles/exhaust-the-design-space) builds two or three competing prototypes when there's no precedent.
+- [Build the Lever](/docs/skills/principles/build-the-lever) builds the script that does or proves the work, so a reviewer can rerun it.
 
 The architecture principles decide where state, validation, and compatibility live:
 
-- [Model the Domain](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-model-the-domain/SKILL.md) encodes repeated rules in one structure, not scattered conditionals.
-- [Boundary Discipline](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-boundary-discipline/SKILL.md) validates at the boundary and trusts internal types.
-- [Type System Discipline](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-type-system-discipline/SKILL.md) makes illegal states unrepresentable.
-- [Make Operations Idempotent](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-make-operations-idempotent/SKILL.md) converges retries on the same end state.
-- [Migrate Callers Then Delete Legacy APIs](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md) migrates and deletes in one wave.
-- [Separate Before Serializing Shared State](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-separate-before-serializing-shared-state/SKILL.md) removes the sharing before adding coordination.
+- [Model the Domain](/docs/skills/principles/model-the-domain) encodes repeated rules in one structure, not scattered conditionals.
+- [Boundary Discipline](/docs/skills/principles/boundary-discipline) validates at the boundary and trusts internal types.
+- [Type System Discipline](/docs/skills/principles/type-system-discipline) makes illegal states unrepresentable.
+- [Make Operations Idempotent](/docs/skills/principles/make-operations-idempotent) converges retries on the same end state.
+- [Migrate Callers Then Delete Legacy APIs](/docs/skills/principles/migrate-callers-then-delete-legacy-apis) migrates and deletes in one wave.
+- [Separate Before Serializing Shared State](/docs/skills/principles/separate-before-serializing-shared-state) removes the sharing before adding coordination.
 
 The verification principles define what counts as proof:
 
-- [Prove It Works](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-prove-it-works/SKILL.md) verifies the real artifact, not a proxy.
-- [Fix Root Causes](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-fix-root-causes/SKILL.md) reproduces and traces to the cause before changing code.
-- [Sequence Work into Verifiable Units](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-sequence-verifiable-units/SKILL.md) ends each small unit in a check before starting the next.
-- [Test Behavior, Not Implementation](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-test-behavior-not-implementation/SKILL.md) calls the code the way its users do and asserts a literal expected value, and deletes a test that would still pass if every imported function returned `undefined`.
+- [Prove It Works](/docs/skills/principles/prove-it-works) verifies the real artifact, not a proxy.
+- [Fix Root Causes](/docs/skills/principles/fix-root-causes) reproduces and traces to the cause before changing code.
+- [Sequence Work into Verifiable Units](/docs/skills/principles/sequence-verifiable-units) ends each small unit in a check before starting the next.
+- [Test Behavior, Not Implementation](/docs/skills/principles/test-behavior-not-implementation) calls the code the way its users do and asserts a literal expected value, and deletes a test that would still pass if every imported function returned `undefined`.
 
 The delegation principles keep parallel work sane:
 
-- [Guard the Context Window](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-guard-the-context-window/SKILL.md) routes bulk reading to subagents and keeps findings in the main chat.
-- [Never Block on the Human](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-never-block-on-the-human/SKILL.md) proceeds on reversible work and presents the result.
+- [Guard the Context Window](/docs/skills/principles/guard-the-context-window) routes bulk reading to subagents and keeps findings in the main chat.
+- [Never Block on the Human](/docs/skills/principles/never-block-on-the-human) proceeds on reversible work and presents the result.
 
 And one meta principle:
 
-- [Encode Lessons in Structure](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-encode-lessons-in-structure/SKILL.md) turns advice you've repeated twice into a lint, check, or script.
+- [Encode Lessons in Structure](/docs/skills/principles/encode-lessons-in-structure) turns advice you've repeated twice into a lint, check, or script.
 
 Don't memorize the list. Skim it now, then come back when you catch the agent doing something a name here would have prevented. That's how the vocabulary sticks.

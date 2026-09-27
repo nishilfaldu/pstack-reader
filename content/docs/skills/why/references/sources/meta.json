@@ -1,0 +1,14 @@
+{
+  "title": "Sources",
+  "defaultOpen": false,
+  "pages": [
+    "code-archaeology",
+    "databricks",
+    "datadog",
+    "incident-postmortem",
+    "linear",
+    "notion",
+    "sentry",
+    "slack"
+  ]
+}

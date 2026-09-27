@@ -1,0 +1,10 @@
+{
+  "title": "References",
+  "defaultOpen": false,
+  "pages": [
+    "code-quality-review",
+    "lead-judgment",
+    "reviewer-prompt",
+    "rubric"
+  ]
+}

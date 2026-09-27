@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "check:content": "python3 scripts/check-content.py"
   },
   "dependencies": {
     "fumadocs-core": "^16.0.0",

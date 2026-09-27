@@ -1,0 +1,30 @@
+{
+  "title": "Principles",
+  "defaultOpen": false,
+  "pages": [
+    "index",
+    "attack-the-premise",
+    "boundary-discipline",
+    "build-the-lever",
+    "encode-lessons-in-structure",
+    "exhaust-the-design-space",
+    "experience-first",
+    "fix-root-causes",
+    "foundational-thinking",
+    "guard-the-context-window",
+    "laziness-protocol",
+    "make-operations-idempotent",
+    "migrate-callers-then-delete-legacy-apis",
+    "minimize-reader-load",
+    "model-the-domain",
+    "never-block-on-the-human",
+    "outcome-oriented-execution",
+    "prove-it-works",
+    "redesign-from-first-principles",
+    "separate-before-serializing-shared-state",
+    "sequence-verifiable-units",
+    "subtract-before-you-add",
+    "test-behavior-not-implementation",
+    "type-system-discipline"
+  ]
+}

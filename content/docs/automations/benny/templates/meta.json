@@ -1,0 +1,10 @@
+{
+  "title": "Templates",
+  "defaultOpen": false,
+  "pages": [
+    "index",
+    "configuration.example",
+    "reproduce-automation-prompt",
+    "triage-automation-prompt"
+  ]
+}

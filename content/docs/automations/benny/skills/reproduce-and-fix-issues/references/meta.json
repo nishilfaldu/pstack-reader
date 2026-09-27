@@ -1,0 +1,9 @@
+{
+  "title": "References",
+  "defaultOpen": false,
+  "pages": [
+    "control-adapter",
+    "feature-map.example",
+    "verify-existing-fix"
+  ]
+}

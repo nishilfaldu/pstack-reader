@@ -1,0 +1,30 @@
+{
+  "title": "Playbooks",
+  "defaultOpen": false,
+  "pages": [
+    "index",
+    "authoring-a-skill",
+    "autonomous-run",
+    "autopilot-full",
+    "autopilot-stack",
+    "babysit",
+    "bug-fix",
+    "eval",
+    "feature",
+    "hillclimb",
+    "investigation",
+    "multi-phase-plan",
+    "opening-a-pr",
+    "orchestrate",
+    "pause-safely",
+    "perf-issue",
+    "prototype",
+    "refactoring",
+    "runtime-forensics",
+    "session-pickup",
+    "shipping",
+    "trace-forensics",
+    "visual-parity",
+    "worktree-cleanup"
+  ]
+}

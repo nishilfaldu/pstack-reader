@@ -1,0 +1,10 @@
+{
+  "title": "Benny skills",
+  "defaultOpen": false,
+  "pages": [
+    "index",
+    "reproduce-and-fix-issues",
+    "setup-benny",
+    "triage-issue-reports"
+  ]
+}
