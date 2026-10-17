@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import os
+import shutil
 import re
 import sys
 from pathlib import Path, PurePosixPath
@@ -10,11 +12,11 @@ from pathlib import Path, PurePosixPath
 SOURCE = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path('/tmp/pstack-upstream/pstack')
 TARGET = Path(__file__).resolve().parents[1] / 'content/docs'
 MAP_FILE = Path(__file__).resolve().parents[1] / 'lib/upstream-paths.json'
-GUIDE = [
-    '01-setup', '02-poteto-mode', '03-understand', '04-design',
-    '05-build-and-clean', '06-verify-and-ship', '07-overnight',
-    '08-principles', '09-make-it-yours', '10-recipes-and-pitfalls',
-]
+COMMIT = os.environ.get('PSTACK_COMMIT', 'main')
+# Guide chapters are the numbered files in docs/guide, in filename order.
+GUIDE = sorted(p.stem for p in (SOURCE / 'docs/guide').glob('[0-9]*.md'))
+# Top-level sections kept in this order; any new upstream section is appended.
+SECTIONS = ['playbooks', 'skills', 'agents', 'automations']
 
 
 def destination(src: PurePosixPath) -> PurePosixPath:
@@ -48,7 +50,12 @@ def destination(src: PurePosixPath) -> PurePosixPath:
         if len(parts) > 3 and parts[2] == 'skills' and src.name == 'SKILL.md':
             return PurePosixPath('automations/benny/skills') / parts[3] / 'index.mdx'
         return PurePosixPath('automations/benny') / PurePosixPath(*parts[2:]).with_suffix('.mdx')
-    raise ValueError(src)
+    # Fallback for any new upstream location: mirror its path (docs/<x>/... -> <x>/...).
+    rest = parts[1:] if parts[0] == 'docs' and len(parts) > 2 else parts
+    out = PurePosixPath(*[q.lower() for q in rest])
+    if out.name == 'readme.md':
+        return out.parent / 'index.mdx'
+    return out.with_suffix('.mdx')
 
 
 def page_title(path: PurePosixPath, body: str) -> str:
@@ -70,7 +77,7 @@ def split_frontmatter(content: str) -> str:
 
 
 def source_link(src: PurePosixPath) -> str:
-    return 'https://github.com/cursor/plugins/blob/main/pstack/' + str(src)
+    return 'https://github.com/cursor/plugins/blob/' + COMMIT + '/pstack/' + str(src)
 
 
 def rewrite_links(body: str, current: PurePosixPath, destinations: dict[PurePosixPath, PurePosixPath]) -> str:
@@ -92,7 +99,7 @@ def rewrite_links(body: str, current: PurePosixPath, destinations: dict[PurePosi
                 route = ''
             return '](/docs' + ('/' + route if route else '') + (sep + fragment if sep else '') + ')'
         location = 'tree' if (SOURCE / resolved).is_dir() else 'blob'
-        return '](https://github.com/cursor/plugins/' + location + '/main/pstack/' + str(resolved) + (sep + fragment if sep else '') + ')'
+        return '](https://github.com/cursor/plugins/' + location + '/' + COMMIT + '/pstack/' + str(resolved) + (sep + fragment if sep else '') + ')'
     return re.sub(r'\]\(([^)]+)\)', replace, body)
 
 
@@ -119,6 +126,15 @@ def write_index(folder: PurePosixPath, title: str, introduction: str, entries: l
 
 
 def main() -> None:
+    # Everything under content/docs is generated: start clean so removed upstream files disappear.
+    if TARGET.exists():
+        shutil.rmtree(TARGET)
+    images = SOURCE / 'docs/guide/images'
+    if images.is_dir():
+        dest = TARGET.parents[1] / 'public/images'
+        dest.mkdir(parents=True, exist_ok=True)
+        for image in images.iterdir():
+            shutil.copy2(image, dest / image.name)
     files = sorted(p for p in SOURCE.rglob('*') if p.is_file() and (p.suffix == '.md' or p.as_posix().endswith('/references/decision-log-template.tsv') or p.as_posix().endswith('/templates/configuration.example.yaml')))
     destinations = {PurePosixPath(p.relative_to(SOURCE).as_posix()): destination(PurePosixPath(p.relative_to(SOURCE).as_posix())) for p in files}
     titles: dict[PurePosixPath, str] = {}
@@ -142,15 +158,24 @@ def main() -> None:
         upstream[route] = str(source)
 
     # A readable tree follows the upstream directories while exposing playbooks directly.
-    write_meta(PurePosixPath('.'), 'pstack', ['index', '---Guide---', *GUIDE, '---Reference library---', 'playbooks', 'skills', 'agents', 'automations', 'about'], True)
+    known = set(SECTIONS) | {'about', 'index', *GUIDE}
+    extra = sorted({t.parts[0] if len(t.parts) > 1 else t.stem for t in destinations.values()} - known)
+    for section in extra:
+        print(f'::warning title=New upstream section::{section} has no curated layout; it was added under Reference library with an auto-generated index')
+        pages = sorted(t for t in destinations.values() if t.parts[0] == section and len(t.parts) > 1)
+        if not any(t == PurePosixPath(section, 'index.mdx') for t in pages):
+            src_of = {v: k for k, v in destinations.items()}
+            write_index(PurePosixPath(section), section.replace('-', ' ').title(), '', [(titles[src_of[t]], t) for t in pages])
+        write_meta(PurePosixPath(section), section.replace('-', ' ').title(), ['index', '...'])
+    write_meta(PurePosixPath('.'), 'pstack', ['index', '---Guide---', *GUIDE, '---Reference library---', *SECTIONS, *extra, 'about'], True)
     playbooks = sorted((p for p in destinations if p.parts[:3] == ('skills', 'poteto-mode', 'playbooks')), key=lambda p: p.stem)
-    write_index(PurePosixPath('playbooks'), 'Playbooks', 'The 23 operating playbooks from `skills/poteto-mode/playbooks`. Choose a workflow, then read its steps and finish condition.', [(titles[p], destinations[p]) for p in playbooks])
+    write_index(PurePosixPath('playbooks'), 'Playbooks', f'The {len(playbooks)} operating playbooks from `skills/poteto-mode/playbooks`. Choose a workflow, then read its steps and finish condition.', [(titles[p], destinations[p]) for p in playbooks])
     write_meta(PurePosixPath('playbooks'), 'Playbooks', ['index', *[p.stem for p in playbooks]])
     skill_pages = sorted((p for p in destinations if p.parts[0] == 'skills' and p.name == 'SKILL.md' and not p.parts[1].startswith('principle-')), key=lambda p: p.parts[1])
     principle_pages = sorted((p for p in destinations if p.parts[0] == 'skills' and p.name == 'SKILL.md' and p.parts[1].startswith('principle-')), key=lambda p: p.parts[1])
     write_index(PurePosixPath('skills'), 'Skills', 'Each skill below is copied from its own source directory. Open a skill for its instructions; nested reference pages stay with that skill.', [(titles[p], destinations[p]) for p in skill_pages] + [('Principles', PurePosixPath('skills/principles/index.mdx'))])
     write_meta(PurePosixPath('skills'), 'Skills', ['index', 'principles', *[p.parts[1] for p in skill_pages]])
-    write_index(PurePosixPath('skills/principles'), 'Principles', 'The 23 `principle-*` skills collected in one reading shelf.', [(titles[p], destinations[p]) for p in principle_pages])
+    write_index(PurePosixPath('skills/principles'), 'Principles', f'The {len(principle_pages)} `principle-*` skills collected in one reading shelf.', [(titles[p], destinations[p]) for p in principle_pages])
     write_meta(PurePosixPath('skills/principles'), 'Principles', ['index', *[p.parts[1].removeprefix('principle-') for p in principle_pages]])
     for p in skill_pages:
         skill = p.parts[1]
@@ -181,6 +206,8 @@ def main() -> None:
     templates = sorted((p for p in destinations if p.parts[:3] == ('automations', 'benny', 'templates')), key=lambda p: p.stem)
     write_index(PurePosixPath('automations/benny/templates'), 'Benny templates', 'Source templates for configuring and running the automations.', [(titles[p], destinations[p]) for p in templates])
     write_meta(PurePosixPath('automations/benny/templates'), 'Templates', ['index', *[destinations[p].stem for p in templates]])
+    guide_src = {destinations[k].stem: k for k in destinations if k.parts[:2] == ('docs', 'guide') and k.stem in GUIDE}
+    (MAP_FILE.parent / 'guide-chapters.json').write_text(json.dumps([{'slug': g, 'title': titles[guide_src[g]]} for g in GUIDE], indent=2) + '\n')
     MAP_FILE.write_text(json.dumps(upstream, indent=2, sort_keys=True) + '\n')
     print(f'Copied {len(files)} source documents and generated navigation indexes.')
 

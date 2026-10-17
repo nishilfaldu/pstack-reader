@@ -12,7 +12,7 @@ SOURCE = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path('/tmp/pstack
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / 'content/docs'
 MAPPING = json.loads((ROOT / 'lib/upstream-paths.json').read_text())
-EXPECTED_COMMIT = 'ecc249f1e306fc64ddf83c7bed16cacf7c2239db'
+EXPECTED_COMMIT = (ROOT / 'UPSTREAM_SHA').read_text().strip()
 
 
 def source_body(text: str) -> str:

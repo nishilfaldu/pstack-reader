@@ -1,6 +1,6 @@
 # pstack reader
 
-A reading site for the [pstack plugin](https://github.com/cursor/plugins/tree/main/pstack), built with Next.js and Fumadocs. The guide is the linear reading path. The reference library contains the source README, 23 playbooks, all 47 skill pages (including all 23 current `principle-*` skills), their nested references, two agent docs, and the Benny automation pack.
+A reading site for the [pstack plugin](https://github.com/cursor/plugins/tree/main/pstack), built with Next.js and Fumadocs. The guide is the linear reading path. The reference library is generated from every Markdown file in upstream `pstack/`: the source README, playbooks, skills (with the `principle-*` shelf), their references, agent docs, the Benny automation pack, and any new upstream section.
 
 ## Local development
 
@@ -13,15 +13,16 @@ Open http://localhost:3000. `npm run check:content` checks routes, source covera
 
 ## Refresh from upstream
 
-The current content was copied from `cursor/plugins` commit `ecc249f1e306fc64ddf83c7bed16cacf7c2239db`. To refresh it, clone or update a sparse checkout of the official repository and run:
+Everything under `content/docs`, `public/images`, `lib/upstream-paths.json` and `lib/guide-chapters.json` is generated; never edit it by hand. `UPSTREAM_SHA` records the synced `cursor/plugins` commit.
 
 ```bash
-python3 scripts/sync-content.py /path/to/plugins/pstack
+bash scripts/sync.sh   # sparse-clones cursor/plugins, regenerates content, runs check-content and audit-source
 npm run build
-python3 scripts/audit-source.py /path/to/plugins/pstack
 ```
 
-The copied material retains its upstream license in `UPSTREAM-LICENSE`. The audit compares every published source page and guide image against the pinned upstream commit. The sync script copies source text, gives every document a Fumadocs route, groups pages by source directory, rewrites links between copied pages, and records upstream paths in `lib/upstream-paths.json`. The guide chapter order lives in `content/docs/meta.json` and `lib/chapters.ts`.
+`.github/workflows/sync-upstream.yml` does this every 6 hours (and on demand), builds, and pushes to `main` only when the content changed; Vercel deploys `main`. Curated choices live in code: section order in `scripts/sync-content.py` (new upstream sections are appended with a warning) and chapter titles in `lib/chapters.ts` (new chapters use their own heading).
+
+The copied material retains its upstream license in `UPSTREAM-LICENSE`.
 
 ## Deployment
 
