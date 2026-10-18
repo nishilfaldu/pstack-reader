@@ -16,7 +16,7 @@ Put what done means in the first prompt, in whatever words fit:
 /poteto-mode add json output to this command. text output stays byte-identical, the json parses, both run against the sample project. show me the evidence.
 ```
 
-Now the agent has three checks it can run, not a mood to satisfy. When the reply comes back, it should carry the exact commands and outputs. If a check couldn't run, a good reply says "inconclusive", and you should treat a confident reply without evidence as a red flag.
+Now the agent has three checks it can run, not a mood to satisfy. When the reply comes back, it should carry the exact commands and outputs. If a check couldn't run, a good reply says "inconclusive". A confident reply without evidence is a warning sign.
 
 Match the check to the change:
 
@@ -28,7 +28,7 @@ Match the check to the change:
 
 Ask for the proof as an artifact you can inspect yourself: the failing test and then the passing one, a before-and-after video, the trace, the screenshot. If the fix already merged, ask for the same check again on main. An artifact beats a plausible explanation, because you can challenge it without replaying the whole run.
 
-For a small diff you don't fully trust, [`/blast-radius`](/docs/skills/blast-radius) finds what it could break elsewhere. It picks the one fact the change is safe because of and proves it by running code instead of writing an essay about it.
+For a small diff you don't fully trust, [`/blast-radius`](/docs/skills/blast-radius) finds what it could break elsewhere. It finds the one fact that makes the change safe and proves that fact by running code, not by arguing for it.
 
 ## Vet a measured number with `/benchmark-checklist`
 
@@ -60,7 +60,7 @@ The UI bullet above hides a real requirement. The agent needs a scripted way to 
 
 [`/create-verification-skill`](/docs/skills/create-verification-skill) interviews the repository, not you. It works out what a user touches, how the app launches locally, what can drive it (an existing harness first, otherwise browser and CDP, a PTY, or plain HTTP), what evidence proves behavior, and whether two instances can run side by side. It asks you only what the code can't answer.
 
-It writes `.cursor/skills/verify-<app>/`, agent-facing instructions with exact Launch, Doctor, Drive, Evidence, and Cleanup sections, plus a feature map under `features/` that indexes what the app does and what result proves each feature works. The skill ships a [worked feature-map example](https://github.com/cursor/plugins/tree/0317eb8b858c991c57721358daaee19dbe8c814d/pstack/skills/create-verification-skill/references/feature-map-example) with a README index and one file per feature using the four required H2s. Before handing it over, the generator proves the skill once end to end: launch, doctor check, drive one feature, capture evidence, clean up. If that proof fails, don't use the output.
+It writes `.cursor/skills/verify-<app>/`, agent-facing instructions with exact Launch, Doctor, Drive, Evidence, and Cleanup sections, plus a feature map under `features/` that indexes what the app does and what result proves each feature works. The skill ships a [worked feature-map example](https://github.com/cursor/plugins/tree/d1715e03a8b1a2f03fdbe336d40c4a56b81f3c8f/pstack/skills/create-verification-skill/references/feature-map-example) with a README index and one file per feature using the four required H2s. Before handing it over, the generator proves the skill once end to end: launch, doctor check, drive one feature, capture evidence, clean up. If that proof fails, don't use the output.
 
 From then on, "verify it in the app" is a step any agent can execute, in this repo, with no setup conversation. Name it in the prompt when you want the proof in a specific form:
 
@@ -87,13 +87,13 @@ While you're there, make the dev setup repeatable too: seeded data, test users, 
 
 ## Keep the verification skill honest
 
-Apps change and feature maps rot. Run this at least once a day, ideally from a scheduled automation so nobody has to remember:
+Apps change, and feature maps go out of date. Run this at least once a day, ideally from a scheduled automation so nobody has to remember:
 
 ```text
 /maintain-verification-skill
 ```
 
-[`/maintain-verification-skill`](/docs/skills/maintain-verification-skill) audits the generated skill: one read-only source reader per feature in parallel, then one live pass that drives every mapped feature. It ends in exactly one of three outcomes. `clean` means full coverage and nothing to ship. `changed` means one PR of proven corrections, confined to the verification skill's own directory. `blocked` names the blocker. It never edits product code. If the live pass catches a product regression, it reports the regression instead of papering over it in docs.
+[`/maintain-verification-skill`](/docs/skills/maintain-verification-skill) audits the generated skill: one read-only source reader per feature in parallel, then one live pass that drives every mapped feature. It ends in exactly one of three outcomes. `clean` means full coverage and nothing to ship. `changed` means one PR of proven corrections, confined to the verification skill's own directory. `blocked` names the blocker. It never edits product code. If the live pass catches a product regression, it reports the regression instead of hiding it with a doc edit.
 
 ## Open the PR
 
