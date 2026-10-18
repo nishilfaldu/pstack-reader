@@ -97,7 +97,7 @@ morning.
 
 when invoked it:
 
-1. matches your task to a [playbook](https://github.com/cursor/plugins/tree/d1715e03a8b1a2f03fdbe336d40c4a56b81f3c8f/pstack/skills/poteto-mode/playbooks) and opens a todo list whose first items are its steps, copied in verbatim.
+1. matches your task to a [playbook](https://github.com/cursor/plugins/tree/0b8e952052d482ee6de06deebf14d590d77b1b34/pstack/skills/poteto-mode/playbooks) and opens a todo list whose first items are its steps, copied in verbatim.
 2. routes to the other skills as the steps fire.
 3. writes unslopped replies framed for the consumer and the maintainer.
 
@@ -131,7 +131,7 @@ to keep [`/poteto-mode`](/docs/skills/poteto-mode) on across turns, pick it from
 | [`/how`](/docs/skills/how) | you want a walkthrough of how a subsystem works. |
 | [`/why`](/docs/skills/why) | you want to know why something was built this way. discovers available MCPs at run time and queries each evidence category in parallel (source control, issue tracker, long-form docs, real-time chat, infra observability, error tracking, analytics warehouse). |
 | [`/recall`](/docs/skills/recall) | you're starting or resuming work and want your recent context on a topic rebuilt from your own chat history and the shared record, handed back as a tight current-state brief. |
-| [`/ketchup`](/docs/skills/ketchup) | you want what changed in this chat since your last message, in a few plain sentences and small visuals, with just enough context on each action item to make the call. |
+| [`/ketchup`](/docs/skills/ketchup) | you want what changed in this chat since your last message, in plain words and small visuals, with every item waiting on you listed and decidable from the reply alone, even when that makes the reply long. |
 | [`/blast-radius`](/docs/skills/blast-radius) | you have a small-looking change and want to know what else it could break, with the one fact it's safe because of proven by running code, not asserted. |
 | [`/architect`](/docs/skills/architect) | you're about to write code that crosses a function boundary and want the caller's usage, types, and module shape settled first. |
 | [`/arena`](/docs/skills/arena) | you want N parallel attempts at the same thing, then to grab the best parts of each. |
@@ -151,6 +151,7 @@ to keep [`/poteto-mode`](/docs/skills/poteto-mode) on across turns, pick it from
 | [`/show-me-your-work`](/docs/skills/show-me-your-work) | you want a reviewable decision trail. logs decisions to a tsv you can commit. |
 | [`/create-verification-skill`](/docs/skills/create-verification-skill) | your project has no scripted way to prove app behavior. generates a project-local verify skill with a feature map, for any language or platform. |
 | [`/maintain-verification-skill`](/docs/skills/maintain-verification-skill) | your verify skill's feature map has drifted from the app. source wave + one live pass, at most one PR of proven corrections. |
+| [`/create-formal-verification-skill`](/docs/skills/create-formal-verification-skill) | tests can't reach the case that breaks a race, retry, state machine, parser, or unsafe code. verifies one property with the tool that fits and generates a project-local skill to recheck it on every change. |
 | [`/unslop`](/docs/skills/unslop) | you're cleaning up writing. removes AI tells. |
 | [`/bro`](/docs/skills/bro) | you want the last message restated in plain human language, no jargon. |
 | [`/technical-writing`](/docs/skills/technical-writing) | layered doc standard (Diátaxis + Google developer style + STE + Global English) for docs, RFCs, readmes, PR descriptions, commit messages. |
@@ -278,7 +279,7 @@ when a default changes, a rule written before the change still pins the old defa
 
 ## automations
 
-pstack also ships a dormant [benny automation pack](https://github.com/cursor/plugins/tree/d1715e03a8b1a2f03fdbe336d40c4a56b81f3c8f/pstack/automations/benny). benny triages slack issue reports, then reproduces and fixes confirmed bugs with real ui evidence. its files are not registered as slash skills.
+pstack also ships a dormant [benny automation pack](https://github.com/cursor/plugins/tree/0b8e952052d482ee6de06deebf14d590d77b1b34/pstack/automations/benny). benny triages slack issue reports, then reproduces and fixes confirmed bugs with real ui evidence. its files are not registered as slash skills.
 
 to set it up, point cursor at [`FOR_AGENTS.md`](/docs/automations/benny/for-agents). setup copies the pack into the target repository at `.cursor/automations/benny/`, enables pstack there for shared skills, and keeps user configuration outside the copied pack. benny runs on cursor automations, so it is cursor-only.
 
