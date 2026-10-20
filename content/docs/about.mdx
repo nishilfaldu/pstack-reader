@@ -97,7 +97,7 @@ morning.
 
 when invoked it:
 
-1. matches your task to a [playbook](https://github.com/cursor/plugins/tree/88d47514b82e7c44f00f2b2a72ff6dd12158038c/pstack/skills/poteto-mode/playbooks) and opens a todo list whose first items are its steps, copied in verbatim.
+1. matches your task to a [playbook](https://github.com/cursor/plugins/tree/29fa9382c9c250d134f6a2f1aa86c01c5f63119d/pstack/skills/poteto-mode/playbooks) and opens a todo list whose first items are its steps, copied in verbatim.
 2. routes to the other skills as the steps fire.
 3. writes unslopped replies framed for the consumer and the maintainer.
 
@@ -280,7 +280,7 @@ when a default changes, a rule written before the change still pins the old defa
 
 ## automations
 
-pstack also ships a dormant [benny automation pack](https://github.com/cursor/plugins/tree/88d47514b82e7c44f00f2b2a72ff6dd12158038c/pstack/automations/benny). benny triages slack issue reports, then reproduces and fixes confirmed bugs with real ui evidence. its files are not registered as slash skills.
+pstack also ships a dormant [benny automation pack](https://github.com/cursor/plugins/tree/29fa9382c9c250d134f6a2f1aa86c01c5f63119d/pstack/automations/benny). benny triages slack issue reports, then reproduces and fixes confirmed bugs with real ui evidence. its files are not registered as slash skills.
 
 to set it up, point cursor at [`FOR_AGENTS.md`](/docs/automations/benny/for-agents). setup copies the pack into the target repository at `.cursor/automations/benny/`, enables pstack there for shared skills, and keeps user configuration outside the copied pack. benny runs on cursor automations, so it is cursor-only.
 
