@@ -60,7 +60,7 @@ The UI bullet above hides a real requirement. The agent needs a scripted way to 
 
 [`/create-verification-skill`](/docs/skills/create-verification-skill) interviews the repository, not you. It works out what a user touches, how the app launches locally, what can drive it (an existing harness first, otherwise browser and CDP, a PTY, or plain HTTP), what evidence proves behavior, and whether two instances can run side by side. It asks you only what the code can't answer.
 
-It writes `.cursor/skills/verify-<app>/`, agent-facing instructions with exact Launch, Doctor, Drive, Evidence, and Cleanup sections, a Helpers section for any script it ships, plus a feature map under `features/` that indexes what the app does and what result proves each feature works. The skill ships a [worked feature-map example](https://github.com/cursor/plugins/tree/c5149ef275fa7be41e3ffe5e79c8fc16efcaeedc/pstack/skills/create-verification-skill/references/feature-map-example) with a README index and one file per feature using the four required H2s. Before handing it over, the generator proves the skill once end to end: launch, doctor check, drive one feature, capture evidence, clean up, then confirm the evidence survived the cleanup. If that proof fails, don't use the output.
+It writes `.cursor/skills/verify-<app>/`, agent-facing instructions with exact Launch, Doctor, Drive, Evidence, and Cleanup sections, a Helpers section for any script it ships, plus a feature map under `features/` that indexes what the app does and what result proves each feature works. The skill ships a [worked feature-map example](https://github.com/cursor/plugins/tree/164ced10fa576ddf91e1f03b4fa9d1183c8272fe/pstack/skills/create-verification-skill/references/feature-map-example) with a README index and one file per feature using the four required H2s. Before handing it over, the generator proves the skill once end to end: launch, doctor check, drive one feature, capture evidence, clean up, then confirm the evidence survived the cleanup. If that proof fails, don't use the output.
 
 From then on, "verify it in the app" is a step any agent can execute, in this repo, with no setup conversation. Name it in the prompt when you want the proof in a specific form:
 
@@ -125,11 +125,7 @@ A counterexample in model terms convinces you. The PM or designer who owns the b
 /statechart what the user sees when they edit a note offline
 ```
 
-[`/statechart`](/docs/skills/statechart) draws a Mermaid statechart of what the user sees, generated from a TLA+ model, so the picture and the checked model can't drift apart. The reader's rules ("you never see Synced while you're offline") become invariants. Each bug TLC finds is a numbered path in the reader's words, and each state is marked works, still wrong, or fixed by your open PR. Before the hand-off, the agent reproduces each bug path in the real code, so a modeling error doesn't reach the reader as a bug.
-
-It also runs the other way. Sketch the behavior as a chart, agree on it with the reader, and the skill writes a TLA+ skeleton from it. TLC checks the agreed chart's rules before any code exists. As guards from the real code go into the spec, each place the code departs from the chart shows up as a difference for the reader to decide.
-
-When the code already has a TLA+ spec, the skill can audit the code against it. The agent models what the code does and checks that model next to the unchanged spec. The chart marks the steps where the two differ, and each rule either one breaks is a numbered path.
+[`/statechart`](/docs/skills/statechart) draws a Mermaid statechart of what the user sees, generated from a TLA+ model, so the picture and the checked model can't drift apart. The reader's rules ("you never see Synced while you're offline") become invariants. The chart marks each state that breaks a rule, and the report gives the shortest path to it in the reader's words. Before the hand-off, the agent reproduces each bug path in the real code, so a modeling error doesn't reach the reader as a bug.
 
 ## Open the PR
 
