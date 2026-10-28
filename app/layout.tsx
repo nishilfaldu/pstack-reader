@@ -1,11 +1,13 @@
 import type { Metadata, Viewport } from 'next';
 import { RootProvider } from 'fumadocs-ui/provider/next';
-import { Geist } from 'next/font/google';
+import { Fraunces, Geist, Geist_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { shareImage, siteDescription, siteName, siteUrl } from '@/lib/site';
 import './global.css';
 
 const sans = Geist({ subsets: ['latin'], variable: '--font-sans' });
+const display = Fraunces({ subsets: ['latin'], variable: '--font-display', axes: ['opsz', 'SOFT'] });
+const mono = Geist_Mono({ subsets: ['latin'], variable: '--font-mono' });
 export const metadata: Metadata = {
   title: { default: siteName, template: `%s · ${siteName}` },
   description: siteDescription,
@@ -26,5 +28,5 @@ export const viewport: Viewport = {
   themeColor: [{ media: '(prefers-color-scheme: light)', color: '#ffffff' }, { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' }],
 };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <html lang="en" suppressHydrationWarning><body className={`${sans.variable} flex min-h-screen flex-col`}><RootProvider>{children}</RootProvider><Analytics /></body></html>;
+  return <html lang="en" suppressHydrationWarning><body className={`${sans.variable} ${display.variable} ${mono.variable} flex min-h-screen flex-col`}><RootProvider>{children}</RootProvider><Analytics /></body></html>;
 }
