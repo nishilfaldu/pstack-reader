@@ -28,7 +28,9 @@ export default async function Page({ params }: { params: Params }) {
   const origin = isGuide ? undefined : upstreamSource(route);
   const entries = isGuide || origin ? [] : libraryEntries(page.url);
 
-  return <DocsPage toc={page.data.toc} footer={{ enabled: !isGuide }}>
+  const disclaimer = <footer className="reader-disclaimer reader-disclaimer-footer"><ReaderDisclaimer /></footer>;
+
+  return <DocsPage toc={page.data.toc} footer={{ enabled: !isGuide, children: disclaimer }}>
     {isGuide && <div className="chapter-meta">{index === 0 ? 'Start here' : `Chapter ${String(index).padStart(2, '0')} of ${chapters.length - 1}`}</div>}
     <DocsTitle>{page.data.title}</DocsTitle>
     {index === 0 && <div className="start-row">
@@ -45,7 +47,7 @@ export default async function Page({ params }: { params: Params }) {
       {previous ? <Link href={chapterHref(previous.slug)} className="chapter-link"><span>Previous chapter</span><strong>← {previous.title}</strong></Link> : <span />}
       {next ? <Link href={chapterHref(next.slug)} className="chapter-link next"><span>Next chapter</span><strong>{next.title} →</strong></Link> : <Link href="/docs/playbooks" className="chapter-link next"><span>Finished the guide</span><strong>Explore the reference library →</strong></Link>}
     </nav>}
-    <footer className="reader-disclaimer reader-disclaimer-footer"><ReaderDisclaimer /></footer>
+    {isGuide && disclaimer}
   </DocsPage>;
 }
 export function generateStaticParams() { return source.generateParams(); }
