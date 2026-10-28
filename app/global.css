@@ -48,6 +48,11 @@ body { font-family: var(--font-sans), Arial, sans-serif; }
 #nd-page .prose img { border-radius: .45rem; }
 .page-source { align-self: flex-start; margin-top: -.6rem; font-family: var(--font-mono), ui-monospace, monospace; font-size: .74rem; color: var(--color-fd-muted-foreground); text-decoration: none; }
 .page-source:hover { color: var(--color-fd-foreground); text-decoration: underline; text-underline-offset: .2em; }
+.library-intro { max-width: 60ch; margin-bottom: 1.5rem; }
+.library-cards { margin-bottom: 1rem; }
+.library-cards > a { padding: 1rem 1.1rem; }
+.library-cards > a h3 { font-size: .95rem; font-weight: 600; letter-spacing: -.01em; }
+.library-cards > a p { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.5; }
 .chapter-navigation { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-top: 1px solid var(--color-fd-border); margin-top: 4rem; padding-top: 1.5rem; }
 .chapter-link { display: flex; flex-direction: column; gap: .4rem; color: var(--color-fd-foreground); padding: .6rem 0; }
 .chapter-link span { color: var(--color-fd-muted-foreground); font-size: .76rem; font-weight: 500; }
