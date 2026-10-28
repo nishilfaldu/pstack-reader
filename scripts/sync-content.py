@@ -76,6 +76,37 @@ def split_frontmatter(content: str) -> str:
     return content
 
 
+def frontmatter_description(content: str) -> str | None:
+    if not content.startswith('---\n'):
+        return None
+    lines = content[4:content.find('\n---\n', 4)].splitlines()
+    for i, line in enumerate(lines):
+        if not line.startswith('description:'):
+            continue
+        value = line.removeprefix('description:').strip()
+        if value[:1] in ('>', '|'):
+            folded = []
+            for more in lines[i + 1:]:
+                if more and not more[0].isspace():
+                    break
+                folded.append(more.strip())
+            return ' '.join(part for part in folded if part)
+        if value.startswith('"'):
+            return json.loads(value)
+        if value.startswith("'"):
+            return value[1:-1].replace("''", "'")
+        return value or None
+    return None
+
+
+def playbook_descriptions(mode_skill: Path) -> dict[str, str]:
+    # poteto-mode lists every playbook as "- **Title.** When to use it."
+    if not mode_skill.is_file():
+        return {}
+    entries = re.findall(r'^- \*\*(.+?)\.\*\* (.+)$', mode_skill.read_text(), re.M)
+    return {title: re.sub(r' File: `[^`]+`\.$', '', text).strip() for title, text in entries}
+
+
 def source_link(src: PurePosixPath) -> str:
     return 'https://github.com/cursor/plugins/blob/' + COMMIT + '/pstack/' + str(src)
 
@@ -122,7 +153,8 @@ def write_index(folder: PurePosixPath, title: str, introduction: str, entries: l
     dest = TARGET / folder / 'index.mdx'
     dest.parent.mkdir(parents=True, exist_ok=True)
     links = '\n'.join('- [' + label + '](/docs/' + str(route).removesuffix('.mdx').removesuffix('/index') + ')' for label, route in entries)
-    dest.write_text('---\ntitle: ' + json.dumps(title) + '\n---\n\n' + links + '\n')
+    description = '\ndescription: ' + json.dumps(introduction.replace('`', '')) if introduction else ''
+    dest.write_text('---\ntitle: ' + json.dumps(title) + description + '\n---\n\n' + links + '\n')
 
 
 def main() -> None:
@@ -139,6 +171,7 @@ def main() -> None:
     destinations = {PurePosixPath(p.relative_to(SOURCE).as_posix()): destination(PurePosixPath(p.relative_to(SOURCE).as_posix())) for p in files}
     titles: dict[PurePosixPath, str] = {}
     upstream: dict[str, str] = {}
+    playbook_summaries = playbook_descriptions(SOURCE / 'skills/poteto-mode/SKILL.md')
     for source, target in destinations.items():
         raw = (SOURCE / source).read_text()
         body = split_frontmatter(raw) if source.suffix == '.md' else '```' + source.suffix.lstrip('.') + '\n' + raw.rstrip() + '\n```\n'
@@ -148,7 +181,8 @@ def main() -> None:
         body = rewrite_links(body, source, destinations)
         body = safe_mdx(body)
         body = re.sub(r'[ \t]+$', '', body, flags=re.M)
-        doc = '---\ntitle: ' + json.dumps(title) + '\n---\n\n' + body.rstrip() + '\n'
+        description = frontmatter_description(raw) or (playbook_summaries.get(title) if source.parts[:3] == ('skills', 'poteto-mode', 'playbooks') else None)
+        doc = '---\ntitle: ' + json.dumps(title) + ('\ndescription: ' + json.dumps(description) if description else '') + '\n---\n\n' + body.rstrip() + '\n'
         output = TARGET / target
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(doc)
