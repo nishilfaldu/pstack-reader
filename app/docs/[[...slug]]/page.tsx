@@ -29,7 +29,7 @@ export default async function Page({ params }: { params: Params }) {
   const entries = isGuide || origin ? [] : libraryEntries(page.url);
 
   return <DocsPage toc={page.data.toc} footer={{ enabled: !isGuide }}>
-    {isGuide && <div className="chapter-meta">{index === 0 ? 'Start here' : `Chapter ${String(index).padStart(2, '0')} of 10`}</div>}
+    {isGuide && <div className="chapter-meta">{index === 0 ? 'Start here' : `Chapter ${String(index).padStart(2, '0')} of ${chapters.length - 1}`}</div>}
     <DocsTitle>{page.data.title}</DocsTitle>
     {index === 0 && <div className="start-row">
       <Link href={chapterHref(chapters[1].slug)} className="start-primary">Start with chapter 1 →</Link>

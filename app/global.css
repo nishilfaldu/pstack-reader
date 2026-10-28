@@ -28,7 +28,11 @@ body { font-family: var(--font-sans), Arial, sans-serif; }
 .brand { display: inline-flex; align-items: center; gap: .62rem; font-weight: 650; letter-spacing: -.035em; font-size: 1rem; }
 .brand-potato { display: block; width: 2.4rem; height: auto; object-fit: contain; }
 #nd-sidebar { font-size: .84rem; }
-#nd-sidebar a { line-height: 1.4; }
+#nd-sidebar a { line-height: 1.4; overflow-wrap: break-word; }
+#nd-sidebar .nowrap { white-space: nowrap; }
+#nd-sidebar .sidebar-label { font-size: .7rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--color-fd-muted-foreground); }
+#nd-sidebar .sidebar-chapter-number { flex: none; align-self: flex-start; width: 1.35rem; line-height: calc(.84rem * 1.4); font-family: var(--font-mono), ui-monospace, monospace; font-size: .72rem; color: var(--color-fd-muted-foreground); opacity: .8; }
+#nd-sidebar a[data-active="true"] .sidebar-chapter-number { color: inherit; opacity: 1; }
 #nd-page { max-width: 1070px; }
 .chapter-meta { color: var(--color-fd-muted-foreground); font-size: .78rem; font-weight: 500; margin: 2.5rem 0 .45rem; }
 #nd-page h1 { font-family: var(--font-display), Georgia, serif; font-variation-settings: 'SOFT' 50; font-weight: 560; letter-spacing: -.025em; line-height: 1.08; font-size: clamp(2.2rem, 4vw, 3.1rem); }
