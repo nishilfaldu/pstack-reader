@@ -10,6 +10,7 @@ import { pageDescription } from '@/lib/page-description';
 import { docsUrl, shareImage, siteName } from '@/lib/site';
 import { upstreamSource } from '@/lib/upstream';
 import { libraryEntries } from '@/lib/library';
+import { LibraryShelves } from '@/components/library-shelves';
 import type { Metadata } from 'next';
 
 type Params = Promise<{ slug?: string[] }>;
@@ -30,11 +31,16 @@ export default async function Page({ params }: { params: Params }) {
   return <DocsPage toc={page.data.toc} footer={{ enabled: !isGuide }}>
     {isGuide && <div className="chapter-meta">{index === 0 ? 'Start here' : `Chapter ${String(index).padStart(2, '0')} of 10`}</div>}
     <DocsTitle>{page.data.title}</DocsTitle>
+    {index === 0 && <div className="start-row">
+      <Link href={chapterHref(chapters[1].slug)} className="start-primary">Start with chapter 1 →</Link>
+      <a href="#reference-library" className="start-secondary">Browse the reference library</a>
+    </div>}
     {origin && <a href={origin.url} className="page-source">{origin.path}<span aria-hidden> ↗</span></a>}
     {entries.length > 0 ? <>
       <DocsDescription className="library-intro">{page.data.description}</DocsDescription>
       <Cards className="library-cards">{entries.map((entry) => <Card key={entry.url} href={entry.url} title={entry.title} description={entry.description} />)}</Cards>
     </> : <DocsBody><MDX components={getMDXComponents()} /></DocsBody>}
+    {index === 0 && <LibraryShelves />}
     {isGuide && <nav className="chapter-navigation" aria-label="Chapter navigation">
       {previous ? <Link href={chapterHref(previous.slug)} className="chapter-link"><span>Previous chapter</span><strong>← {previous.title}</strong></Link> : <span />}
       {next ? <Link href={chapterHref(next.slug)} className="chapter-link next"><span>Next chapter</span><strong>{next.title} →</strong></Link> : <Link href="/docs/playbooks" className="chapter-link next"><span>Finished the guide</span><strong>Explore the reference library →</strong></Link>}
