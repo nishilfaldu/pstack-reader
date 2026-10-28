@@ -7,6 +7,7 @@ import { getMDXComponents } from '@/components/mdx';
 import { ReaderDisclaimer } from '@/components/reader-disclaimer';
 import { pageDescription } from '@/lib/page-description';
 import { docsUrl, shareImage, siteName } from '@/lib/site';
+import { upstreamSource } from '@/lib/upstream';
 import type { Metadata } from 'next';
 
 type Params = Promise<{ slug?: string[] }>;
@@ -21,10 +22,12 @@ export default async function Page({ params }: { params: Params }) {
   const previous = chapters[index - 1];
   const next = chapters[index + 1];
   const MDX = page.data.body;
+  const origin = isGuide ? undefined : upstreamSource(route);
 
   return <DocsPage toc={page.data.toc} footer={{ enabled: !isGuide }}>
     {isGuide && <div className="chapter-meta">{index === 0 ? 'Start here' : `Chapter ${String(index).padStart(2, '0')} of 10`}</div>}
     <DocsTitle>{page.data.title}</DocsTitle>
+    {origin && <a href={origin.url} className="page-source">{origin.path}<span aria-hidden> ↗</span></a>}
     <DocsBody><MDX components={getMDXComponents()} /></DocsBody>
     {isGuide && <nav className="chapter-navigation" aria-label="Chapter navigation">
       {previous ? <Link href={chapterHref(previous.slug)} className="chapter-link"><span>Previous chapter</span><strong>← {previous.title}</strong></Link> : <span />}
