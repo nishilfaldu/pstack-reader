@@ -27,6 +27,7 @@ export default async function Page({ params }: { params: Params }) {
   const MDX = page.data.body;
   const origin = isGuide ? undefined : upstreamSource(route);
   const entries = isGuide || origin ? [] : libraryEntries(page.url);
+  const flow = route.match(/^(?:skills|automations\/benny\/skills)\/([^/]+)$/)?.[1];
 
   const disclaimer = <footer className="reader-disclaimer reader-disclaimer-footer"><ReaderDisclaimer /></footer>;
 
@@ -37,7 +38,10 @@ export default async function Page({ params }: { params: Params }) {
       <Link href={chapterHref(chapters[1].slug)} className="start-primary">Start with chapter 1 →</Link>
       <a href="#reference-library" className="start-secondary">Browse the reference library</a>
     </div>}
-    {origin && <a href={origin.url} className="page-source">{origin.path}<span aria-hidden> ↗</span></a>}
+    {origin && <div className="page-links">
+      <a href={origin.url} className="page-source">{origin.path}<span aria-hidden> ↗</span></a>
+      {flow && flow !== 'principles' && <Link href={`/docs/skill-flows#${flow}`} className="page-source">View its flow</Link>}
+    </div>}
     {entries.length > 0 ? <>
       <DocsDescription className="library-intro">{page.data.description}</DocsDescription>
       <Cards className="library-cards">{entries.map((entry) => <Card key={entry.url} href={entry.url} title={entry.title} description={entry.description} />)}</Cards>

@@ -4,6 +4,7 @@ import { libraryEntries } from '@/lib/library';
 const shelves = [
   { url: '/docs/playbooks', title: 'Playbooks', blurb: 'Workflows that /poteto-mode routes a task into, from bug fix to shipping.' },
   { url: '/docs/skills', title: 'Skills', blurb: 'Skills you call by name, from /architect to /why.', exclude: '/docs/skills/principles' },
+  { url: '/docs/skill-flows', title: 'Skill flows', blurb: 'Each skill drawn as a diagram, with the principles and playbooks it draws on.', uncounted: true },
   { url: '/docs/skills/principles', title: 'Principles', blurb: 'Principle names that redirect an agent mid-task.' },
   { url: '/docs/agents', title: 'Agents', blurb: 'Subagent definitions the skills delegate to.' },
   { url: '/docs/automations', title: 'Automations', blurb: 'The Benny pack: triage and reproduce issue reports from Slack.', uncounted: true },

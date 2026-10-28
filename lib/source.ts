@@ -29,6 +29,12 @@ export const source = loader({
         if (node.name) node.name = createElement('span', { className: 'sidebar-label' }, node.name);
         return node;
       },
+      // The skill flows page is built in code, not synced, so it joins the reference library right after Skills.
+      root(node) {
+        const skills = node.children.findIndex((child) => child.type === 'folder' && child.children.some((item) => item.type === 'page' && item.url === '/docs/skills'));
+        node.children.splice(skills + 1, 0, { type: 'page', name: 'Skill flows', url: '/docs/skill-flows' });
+        return node;
+      },
     },
   })],
 });

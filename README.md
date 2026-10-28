@@ -22,6 +22,8 @@ npm run build
 
 `.github/workflows/sync-upstream.yml` does this every 6 hours (and on demand), builds, and pushes to `main` only when the content changed; Vercel deploys `main`. Curated choices live in code: section order in `scripts/sync-content.py` (new upstream sections are appended with a warning) and chapter titles in `lib/chapters.ts` (new chapters use their own heading).
 
+`/docs/skill-flows` draws every skill as a flow. The charts are hand-drawn in `lib/skill-flows.ts`; the principles, playbooks, skills, and agents each skill mentions are detected from the synced source by `lib/skill-references.ts`, so a new reference shows up on its own. The build prints a `Skill flows` warning for a new upstream skill with no chart, or a chart that names a page upstream removed.
+
 The copied material retains its upstream license in `UPSTREAM-LICENSE`.
 
 ## Deployment

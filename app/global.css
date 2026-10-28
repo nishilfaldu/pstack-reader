@@ -50,7 +50,8 @@ body { font-family: var(--font-sans), Arial, sans-serif; }
 #nd-page .prose pre code, #nd-page .prose pre .line { display: block; white-space: pre-wrap; overflow-wrap: anywhere; }
 #nd-page .prose :not(pre) > code { font-family: var(--font-mono), ui-monospace, monospace; white-space: normal; overflow-wrap: anywhere; font-size: .84em; }
 #nd-page .prose img { border-radius: .45rem; }
-.page-source { align-self: flex-start; margin-top: -.6rem; font-family: var(--font-mono), ui-monospace, monospace; font-size: .74rem; color: var(--color-fd-muted-foreground); text-decoration: none; }
+.page-links { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; margin-top: -.6rem; }
+.page-source { align-self: flex-start; font-family: var(--font-mono), ui-monospace, monospace; font-size: .74rem; color: var(--color-fd-muted-foreground); text-decoration: none; }
 .page-source:hover { color: var(--color-fd-foreground); text-decoration: underline; text-underline-offset: .2em; }
 .library-intro { max-width: 60ch; margin-bottom: 1.5rem; }
 .library-cards { margin-bottom: 1rem; }
@@ -84,6 +85,52 @@ body { font-family: var(--font-sans), Arial, sans-serif; }
 .mermaid-diagram { margin: 1.75rem 0; padding: 1.25rem; border: 1px solid var(--color-fd-border); border-radius: .6rem; background: var(--color-fd-card); overflow-x: auto; }
 .mermaid-diagram svg { display: block; min-width: 650px; max-width: none; height: auto; margin: auto; }
 .mermaid-diagram svg text { font-family: var(--font-sans), Arial, sans-serif !important; }
+:root { --flow-pr: #a14b07; --flow-pb: #1f6f8b; --flow-sk: #6a4fb3; --flow-ag: #2e7d4f; }
+.dark { --flow-pr: #f2b25c; --flow-pb: #79c3e0; --flow-sk: #b6a4f5; --flow-ag: #86d0a0; }
+.flow-legend { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; margin: 0 0 1rem; padding: 0; list-style: none; font-size: .8rem; color: var(--color-fd-muted-foreground); }
+.flow-legend li { display: inline-flex; align-items: center; gap: .45rem; }
+.flow-key { display: inline-block; width: 1.4rem; height: .85rem; border: 1px solid var(--flow-key, color-mix(in srgb, var(--color-fd-foreground) 30%, transparent)); background: color-mix(in srgb, var(--flow-key, var(--color-fd-foreground)) 12%, var(--color-fd-card)); }
+.flow-key-loop { border-style: dashed; background: transparent; }
+.flow-key-decision { width: .7rem; height: .7rem; margin: 0 .35rem; transform: rotate(45deg); }
+.flow-key-pr { --flow-key: var(--flow-pr); border-radius: 999px; }
+.flow-key-pb { --flow-key: var(--flow-pb); border-radius: .2rem; border-style: double; border-width: 3px; }
+.flow-key-sk { --flow-key: var(--flow-sk); border-left-width: 3px; border-right-width: 3px; }
+.flow-key-ag { --flow-key: var(--flow-ag); border-radius: .3rem; }
+#nd-page .prose.skill-flows-body { max-width: none; min-width: 0; }
+.skill-flow, .flow-group { min-width: 0; }
+.skill-flows-body p { max-width: 70ch; }
+.flow-group > p { color: var(--color-fd-muted-foreground); }
+.skill-flow { margin-top: 2.75rem; }
+#nd-page .prose .skill-flow h3 { font-family: var(--font-mono), ui-monospace, monospace; font-size: 1.1em; letter-spacing: 0; margin-bottom: .4rem; }
+.skill-flow-summary { margin-top: 0; }
+.skill-flow-diagram { margin: 1rem 0; max-width: 100%; }
+.skill-flow-diagram svg { min-width: 0; }
+.skill-flow-diagram g.node[data-id^="pr_"] > :is(rect, polygon, path) { stroke: var(--flow-pr); fill: color-mix(in srgb, var(--flow-pr) 12%, var(--color-fd-card)); }
+.skill-flow-diagram g.node[data-id^="pb_"] > :is(rect, polygon, path) { stroke: var(--flow-pb); fill: color-mix(in srgb, var(--flow-pb) 12%, var(--color-fd-card)); }
+.skill-flow-diagram g.node[data-id^="sk_"] > :is(rect, polygon, path, line) { stroke: var(--flow-sk); fill: color-mix(in srgb, var(--flow-sk) 12%, var(--color-fd-card)); }
+.skill-flow-diagram g.node[data-id^="ag_"] > :is(rect, polygon, path) { stroke: var(--flow-ag); fill: color-mix(in srgb, var(--flow-ag) 12%, var(--color-fd-card)); }
+.skill-flow-diagram g.node[data-id^="back_"] > rect { stroke-dasharray: 4 3; fill: transparent; }
+.skill-flow-diagram g.node[data-id^="back_"] > text { fill: var(--color-fd-muted-foreground); font-weight: 400; }
+.skill-flow-diagram .flow-ref { cursor: pointer; }
+.skill-flow-diagram .flow-ref:hover g.node > :is(rect, polygon, path) { stroke-width: 1.75; }
+.skill-flow-diagram .flow-ref:focus-visible { outline: 2px solid var(--color-fd-primary); outline-offset: 2px; }
+.flow-refs { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem .6rem; margin: .6rem 0; font-size: .82rem; }
+.flow-refs-label { min-width: 4.5rem; color: var(--color-fd-muted-foreground); font-weight: 500; }
+.flow-refs ul { display: contents; }
+.flow-refs li { margin: 0; padding: 0; list-style: none; }
+.flow-more[open] { flex-basis: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: .4rem; }
+.flow-more summary { cursor: pointer; list-style: none; }
+.flow-more summary::-webkit-details-marker { display: none; }
+.flow-more summary::after { content: '+'; color: var(--color-fd-muted-foreground); }
+.flow-more[open] summary::after { content: '−'; }
+.flow-more[open] > ul { display: flex; flex-wrap: wrap; gap: .4rem .6rem; flex-basis: 100%; margin: 0; padding: 0; }
+#nd-page .prose .flow-chip { display: inline-flex; align-items: center; gap: .4rem; padding: .12rem .55rem; border: 1px solid var(--color-fd-border); border-radius: 999px; color: var(--color-fd-foreground); text-decoration: none; line-height: 1.5; white-space: nowrap; }
+#nd-page .prose .flow-chip::before { content: ''; width: .45rem; height: .45rem; border-radius: 999px; background: var(--flow-chip); }
+#nd-page .prose .flow-chip:hover { border-color: var(--flow-chip); }
+.flow-chip-pr { --flow-chip: var(--flow-pr); }
+.flow-chip-pb { --flow-chip: var(--flow-pb); }
+.flow-chip-sk { --flow-chip: var(--flow-sk); }
+.flow-chip-ag { --flow-chip: var(--flow-ag); }
 .not-found { flex: 1; display: grid; place-items: center; padding: 3rem 1.5rem; background: var(--color-fd-background); color: var(--color-fd-foreground); }
 .not-found-inner { width: min(100%, 36rem); }
 .not-found-brand { display: inline-flex; align-items: center; gap: .4rem; font-weight: 650; letter-spacing: -.04em; margin-bottom: 4rem; }
