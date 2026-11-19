@@ -42,7 +42,7 @@ two steps:
 
 new here? the [pstack guide](/docs) walks you through a first real task, from setup and prompting through verification and overnight runs. stuck, or unsure which skill fits? ask [`/poteto-help`](/docs/skills/poteto-help).
 
-that's it. the other skills are situational, and the mode skill uses them for you as needed. out of the box, code delegates (feature, refactoring, bug fix, perf, hillclimb), prose, and judgment go to opus 5.5 at xhigh, and no role runs above xhigh. outside a review panel, fable 5.2 runs only when you name it or after two opus 5.5 runs of the same brief fail. the default panel is fable 5.2 / opus 5.5 / gemini 4 carbon. [`/setup-pstack`](/docs/skills/setup-pstack) changes any of it.
+that's it. the other skills are situational, and the mode skill uses them for you as needed. out of the box, code delegates (feature, refactoring, bug fix, perf, hillclimb), prose, and judgment go to opus 5.5 at xhigh, and no role runs above xhigh. outside a review panel, fable 5.2 runs only when you name it or after two opus 5.5 runs of the same brief fail. the default panel is fable 5.2 / opus 5.5 / gemini 4 neon. [`/setup-pstack`](/docs/skills/setup-pstack) changes any of it.
 
 ## usage
 
@@ -98,7 +98,7 @@ morning.
 
 when invoked it:
 
-1. matches your task to a [playbook](https://github.com/cursor/plugins/tree/35a90942a7f02e1ebbc2443643179815f2147954/pstack/skills/poteto-mode/playbooks) and opens a todo list whose first items are its steps, copied in verbatim.
+1. matches your task to a [playbook](https://github.com/cursor/plugins/tree/e58dd043600587dbaf58ba315e7f2b38373eeb43/pstack/skills/poteto-mode/playbooks) and opens a todo list whose first items are its steps, copied in verbatim.
 2. routes to the other skills as the steps fire.
 3. writes unslopped replies framed for the consumer and the maintainer.
 
@@ -283,7 +283,7 @@ when a default changes, a rule written before the change still pins the old defa
 
 ## automations
 
-pstack also ships a dormant [benny automation pack](https://github.com/cursor/plugins/tree/35a90942a7f02e1ebbc2443643179815f2147954/pstack/automations/benny). benny triages slack issue reports, then reproduces and fixes confirmed bugs with real ui evidence. its files are not registered as slash skills.
+pstack also ships a dormant [benny automation pack](https://github.com/cursor/plugins/tree/e58dd043600587dbaf58ba315e7f2b38373eeb43/pstack/automations/benny). benny triages slack issue reports, then reproduces and fixes confirmed bugs with real ui evidence. its files are not registered as slash skills.
 
 to set it up, point cursor at [`FOR_AGENTS.md`](/docs/automations/benny/for-agents). setup copies the pack into the target repository at `.cursor/automations/benny/`, enables pstack there for shared skills, and keeps user configuration outside the copied pack. benny runs on cursor automations, so it is cursor-only.
 
